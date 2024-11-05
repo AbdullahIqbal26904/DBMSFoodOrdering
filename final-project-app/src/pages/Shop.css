@@ -1,0 +1,63 @@
+.shopPage-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f7f9fc; /* Light background for contrast */
+}
+
+.shopPage-banner {
+  text-align: center;
+  background-color: #4a90e2; /* Banner background color */
+  color: white;
+  padding: 40px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.shopPage-bannerText {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.shopPage-bannerSubText {
+  font-size: 1.2rem;
+}
+
+.shopPage-priceFilter {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.shopPage-priceFilter h3 {
+  color: #333;
+}
+
+.shopPage-priceFilter input[type='range'] {
+  width: 80%; /* Make the range input wider */
+  margin: 10px 0;
+}
+
+.shopPage-title {
+  text-align: center;
+  font-size: 2rem;
+  margin: 20px 0;
+  color: #4a90e2; /* Title color */
+}
+
+.shopPage-productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); /* Responsive grid */
+  gap: 20px; /* Space between product cards */
+}
+
+.shopPage-productGrid > div {
+  background-color: white; /* Product card background */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transition: transform 0.3s; /* Smooth scaling effect on hover */
+}
+
+.shopPage-productGrid > div:hover {
+  transform: scale(1.05); /* Scale effect on hover */
+}

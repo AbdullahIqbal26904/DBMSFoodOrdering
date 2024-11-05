@@ -1,0 +1,106 @@
+.container3{
+    position: relative;
+    min-height: 100vh;
+    }
+
+.container3 h2 {
+    padding-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.qnty {
+    position: absolute;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    left: 72px;
+    top: 0;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 0.9rem;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    border: 2px solid white;
+}
+
+.prod_sum {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.prod_sum img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    margin-right: 20px;
+}
+
+.prod_sum .prod_name {
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+}
+
+.prod_sum .prod_price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.container3 ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+.container3 ul li {
+    margin: 20px 0;
+}
+
+.summary {
+    text-align: right;
+    padding: 20px 0;
+    border-top: 2px solid #ccc;
+    margin-top: 20px;
+}
+
+.summary p {
+    font-size: 18px;
+    color: #333;
+    margin: 5px 0;
+}
+
+.discount {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+
+.summary input {
+    height: 50px;
+    width: 350px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-size: 16px;
+}
+
+.summary .btn {
+    margin-left: 20px;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}

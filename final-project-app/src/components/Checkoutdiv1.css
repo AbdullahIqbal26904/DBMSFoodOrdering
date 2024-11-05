@@ -1,0 +1,60 @@
+.container {
+    margin: auto;
+  }
+  
+  .section {
+    margin-bottom: 30px;
+  }
+  
+  h3 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .form-floating {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .checkbox-group input[type='checkbox'] {
+    margin-right: 10px;
+  }
+  
+  .checkbox-group label {
+    font-size: 0.875rem;
+  }
+  
+  .f-lcont {
+    display: flex;
+    gap: 15px; /* Adds space between input fields */
+  }
+  
+  .f-lcont .form-floating {
+    flex: 1;
+  }
+  
+  @media (max-width: 700px) {
+    .f-lcont {
+      flex-direction: column;
+      gap: 10px; 
+    }
+    
+    .f-lcont .form-floating {
+      width: 100%;
+    }
+  }
+  

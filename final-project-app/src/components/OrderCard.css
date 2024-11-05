@@ -1,0 +1,28 @@
+/* OrderCard.css */
+.order-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 15px;
+    transition: transform 0.2s;
+}
+
+.order-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-name {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.product-description {
+    color: #666;
+}
+
+.product-price,
+.product-quantity,
+.product-total {
+    color: #444;
+}

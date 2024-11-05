@@ -1,0 +1,166 @@
+.active{
+    color: #088178;
+    position: relative;
+
+}
+.active::after{
+    content: "";
+    width: 30%;
+    height: 2px;
+    background: #088178;
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+}
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0,0.06);
+}
+nav:hover{
+    transition: 0.6s ease-in-out;
+    background-color: #353432;
+    cursor: pointer;
+}
+.NavLink{
+}
+.NavLink::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #088178;
+    transition: width 0.3s ease-in-out;
+}
+.NavLink:hover::after {
+    width: 100%;
+}
+
+.NavLink:hover {
+    color: #088178; /* Optional: Change text color on hover */
+}
+.logo{
+    height: 40px;
+    margin-right: 10px;
+}
+nav .title{
+    font-size: 1.5rem;
+    margin: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #1a1a1a;
+}
+nav:hover .title{
+    color: #eee;
+    transition: 0.6s ease-in-out;
+}
+nav ul{
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+
+}
+nav ul li{
+    list-style: none;
+    margin-right: 30px;
+    position: relative;
+    font-weight: 600;
+    font-size: 16px;
+}
+nav ul li a{
+    display: block;
+    text-decoration: none;
+    color: #1a1a1a;
+    padding: 0.5rem;
+    margin: 0 0.5rem;
+    border-radius: 0.5rem;
+}
+nav:hover ul li a{
+    color: white;
+    transition: 0.6s ease-out;
+}
+
+nav .menu{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 2.25rem;
+    height: 2rem;
+    display: flex;
+    display: none;
+}
+nav .menu span{
+    height: 0.4rem;
+    width: 100%;
+    background-color: white;
+    border-radius: 0.2rem;
+}
+@media(max-width: 600px){
+    nav .menu{
+        display: flex;
+    }
+    nav{
+        flex-direction: column;
+        align-items: start;
+    }
+
+    nav ul{
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 0.25rem;
+    }
+    nav ul.open{
+        display: flex;
+    }
+    nav ul li{
+        width: 100%;
+        text-align: center;
+
+    }
+    nav ul li a{
+        margin: 0.25rem 0.5rem;
+    }
+}
+/* Style for account dropdown */
+.account-dropdown {
+    position: relative;
+  }
+  
+  .account-dropdown .dropdown {
+    display: none;
+    position: absolute;
+    top: 100%; /* Aligns dropdown right below the icon */
+    right: 0;
+    background-color: #088178;
+    border: 1px solid #088178;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .account-dropdown:hover .dropdown {
+    display: block;
+  }
+  
+  .dropdown-item {
+    padding: 10px 20px;
+    color: black;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #088178;
+  }
+  
+  /* Style for other elements of the nav */
+  

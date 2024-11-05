@@ -1,0 +1,129 @@
+[
+    {
+      "title": "The Im-pasta",
+      "description": "This meal is pretty sus. It's the sneakiest pasta you'll ever eat, because it'll surprise you with a delicious punch in the face. You'll never want to vent on this one.",
+      "price": 1400,
+      "currency": "3.2",
+      "category": "Lunch",
+      "dietary": {
+        "vegan": false,
+        "vegetarian": false,
+        "glutenFree": false
+      },
+      "photo": {
+        "imageUrl": "https://images.unsplash.com/photo-1579684947550-22e945225d9a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2534&q=80",
+        "caption": "I'm Pasta - suspiciously delicious",
+        "attribution": {
+          "text": "Thanks to Sorin Popa and Unsplash",
+          "url": "https://unsplash.com/photos/XAxvKp0tdwU"
+        }
+      }
+    },
+    {
+      "title": "Frying Nemo",
+      "description": "Everyone loves lightly friend fish fillets, especially at 1:15am.",
+      "price": 8000,
+      "currency": "4.2",
+      "category": "Lunch",
+      "dietary": {
+        "vegan": false,
+        "vegetarian": false,
+        "glutenFree": true
+      },
+      "photo": {
+        "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YnVyZ2VyfGVufDB8fDB8fHww"
+
+      }
+    },
+    {
+      "title": "A Pizza My Mind",
+      "description": "This pizza is so good that you'll want to yell at people.\n\n\"I'LL HAVE WHAT I'M HAVING\" echoes throughout the streets.\n\nYou're home.",
+      "price": 1090,
+      "currency": "5",
+      "category": "Lunch",
+      "dietary": {
+        "vegan": false,
+        "vegetarian": false,
+        "glutenFree": false
+      },
+      
+      "photo": {
+        "imageUrl": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8YnVyZ2VyfGVufDB8fDB8fHww"
+      }
+    },
+    {
+      "title": "My Apollo-Cheese",
+      "description": "Why hello Greece, nice cheese you got there, it'd be a shame if someone SET IT ON FIRE. That's right, saganaki at its best. Sorry not sorry.",
+      "price": 1100,
+      "currency": "2.1",
+      "category": "Lunch",
+      "dietary": {
+        "vegan": false,
+        "vegetarian": true,
+        "glutenFree": true
+      },
+      "photo": {
+        "imageUrl": "https://images.unsplash.com/photo-1516100882582-96c3a05fe590?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWxmcmVkbyUyMHBhc3RhfGVufDB8fDB8fHww"
+      }
+    },
+    {
+      "title": "Garden of Eatin'",
+      "description": "This is our salad bar, keep eatin' to your heart's content!",
+      "price": 1000,
+      "currency": "1.4",
+      "category": "Lunch",
+      "dietary": {
+        "vegan": true,
+        "vegetarian": true,
+        "glutenFree": true
+      },
+      "photo": {
+        "imageUrl": "https://plus.unsplash.com/premium_photo-1673439304183-8840bd0dc1bf?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGl6emF8ZW58MHx8MHx8fDA%3D"
+      }
+    },
+    {
+      "title": "Pad Thai Tanic",
+      "description": "This noodle dish will make you *sink* in your seat!",
+      "price": 2500,
+      "currency": "10",
+      "category": "Lunch",
+      "dietary": {
+        "vegan": false,
+        "vegetarian": true,
+        "glutenFree": false
+      },
+      "photo": {
+        "imageUrl":"https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGl6emF8ZW58MHx8MHx8fDA%3D"
+      }
+    },
+    {
+      "title": "Let's give em something to Taco'bout",
+      "description": "A *distressingly* large tower of tacos with every filling you can imagine, and far more tacos than you need, and everyone will be talking about this forever.",
+      "price": 1500,
+      "currency": "6.5",
+      "category": "Dinner",
+      "dietary": {
+        "vegan": false,
+        "vegetarian": false,
+        "glutenFree": false
+      },
+      "photo": {
+        "imageUrl": "https://media.istockphoto.com/id/1434203329/photo/barista-holding-a-cup-of-espresso-coffee.webp?a=1&b=1&s=612x612&w=0&k=20&c=xeRW8AZxHwFFv-DOA4MEbL4vuEpLLsglLy-44VGolfM="
+      }
+    },
+    {
+      "title": "Nacho Business",
+      "description": "*All* the nachos. *All* the toppings. Not a tall tower but stacked shallow and wide for optimum topping distributions for all.",
+      "price": 1080,
+      "currency": "10",
+      "category": "Dinner",
+      "dietary": {
+        "vegan": false,
+        "vegetarian": false,
+        "glutenFree": false
+      },
+      "photo": {
+        "imageUrl": "https://images.unsplash.com/photo-1490644120458-f5e5c71d2ab0?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGRvbnV0c3xlbnwwfDB8MHx8fDA%3D"
+      }
+    }
+  ]

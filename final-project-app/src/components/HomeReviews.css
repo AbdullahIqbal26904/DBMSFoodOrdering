@@ -1,0 +1,83 @@
+.main-div {
+    background: #eee;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-content h1 {
+    font-size: 3rem;
+    font-family: 'Saira', sans-serif;
+    color: #333;
+  }
+  
+  .header-content h2 {
+    font-size: 1.8rem;
+    color: #003087;
+    margin-top: 10px;
+  }
+  
+  .header-content .reviewerName {
+    color: #e08804;
+  }
+  
+  .header-content p {
+    font-size: 1.2rem;
+    line-height: 1.9;
+    color: #70667f;
+    max-width: 60%;
+  }
+  
+  .profile_img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .profile_img-container img {
+    max-width: 60%;
+    height: auto;
+    border-radius: 50%;
+    border-bottom: 10px solid #fcd212;
+    border-left: 10px solid #003087;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .circle-1, .circle-2 {
+    position: absolute;
+    border-radius: 50%;
+    z-index: -1;
+  }
+  
+  .circle-1 {
+    width: 150px;
+    height: 150px;
+    background: #fcd212;
+    top: 0;
+    left: 10%;
+    opacity: 0.7;
+  }
+  
+  .circle-2 {
+    width: 200px;
+    height: 200px;
+    background: #003087;
+    top: 20%;
+    left: 20%;
+    opacity: 0.5;
+  }
+  
+  @media (min-width: 768px) {
+    .header-content {
+      margin-top: 100px;
+    }
+    .main-div {
+      flex-direction: row;
+    }
+    .header-content h1 {
+      font-size: 3.5rem;
+    }
+  }
+  
