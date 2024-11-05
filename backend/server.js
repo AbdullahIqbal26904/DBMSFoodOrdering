@@ -47,7 +47,22 @@ app.get('/data', (req, res) => {
     res.json(result);
   });
 });
+app.put('/bhaihojaplease', (req, res) => {
+  const { date, time, total, status, id, address, city, paymentmethod, postalcode, phoneno } = req.body;
 
+  // Log the incoming request for debugging
+  console.log('Creating order with the following details:', req.body);
+
+  const callProcedure = `CALL make_Order4(?,?,?,?,?,?,?,?,?,?)`; // Make sure the procedure name matches
+
+  db.query(callProcedure, [date, time, total, status, id, address, city, paymentmethod, postalcode, phoneno], (err, result) => {
+      if (err) {
+          console.error('Error occurred while calling procedure:', err); // Log the error
+          return res.status(500).send('Error occurred while creating the order.'); // Send a more descriptive error message
+      }
+      res.json(result); // Send the result back to the frontend
+  });
+});
 app.post('/products', upload.single('imgdata'), (req, res) => {
   let addProdquery = ``;
   const { name, description, category, price, ratings, qnty, imgdata, imageUrl } = req.body;
@@ -240,58 +255,6 @@ app.put("/updatequantity", (req, res) => {
     }
   })
 })
-//For Order placement
-app.put('/createOrder', (req, res) => {
-  const { date, time, total, status, id } = req.body;
-  const makeOrder = `INSERT INTO Orders(order_Date,order_Time,total_amount,order_status,id) VALUES(?,?,?,?,?)`;
-  console.log('order making.............');
-  db.query(makeOrder, [date, time, total, status, id], (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).json({ error: err.message });
-    } else {
-      const lastInsertedId = result.insertId;
-
-      // Respond with the last inserted ID
-      return res.status(201).json({ orderId: lastInsertedId });
-    }
-  })
-})
-
-app.put('/deliveryinfo', (req, res) => {
-  const { email, address, city, paymentmethod, postalcode, phoneno, userid } = req.body;
-
-  // SQL query to check if delivery info already exists
-  const checkQuery = `SELECT delivery_id FROM Delivery WHERE delivery_address = ? AND delivery_city = ? AND postal_code = ? AND phoneNo = ? AND payment_method = ? AND id = ?`;
-
-  // SQL query to insert delivery info if it doesn't exist
-  const insertQuery = `INSERT INTO Delivery (delivery_address, delivery_city, payment_method,postal_code,phoneNo,id) VALUES (?, ?, ?, ?, ?, ?)`;
-
-  // Execute the check query first
-  db.query(checkQuery, [address, city, postalcode, phoneno, paymentmethod, userid], (err, result) => {
-    if (err) {
-      console.log('errror', err);
-      return res.status(500).send('Error checking delivery info');
-    }
-
-    // If delivery info exists, return the corresponding id
-    if (result.length > 0) {
-      console.log('id already exists', result[0].delivery_id);
-      return res.status(200).json({ id: result[0].delivery_id });
-
-    }
-    // If delivery info doesn't exist, insert new values
-    db.query(insertQuery, [address, city, paymentmethod, postalcode, phoneno, userid], (err, insertResult) => {
-      if (err) {
-        console.log('error', err);
-        return res.status(500).send('Error inserting delivery info');
-      }
-      console.log('hurray')
-      // Return the newly inserted id
-      res.status(201).json({ id: insertResult.insertId });
-    });
-  });
-});
 
 
 app.put('/deliveryOrder', (req, res) => {

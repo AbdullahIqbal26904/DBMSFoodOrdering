@@ -15,68 +15,44 @@ function Checkoutdiv2() {
   const [delivery_id, setdelivery_id] = useState();
   const [userOrder, setuserOrder] = useState();
   const navigate = useNavigate();
+  useEffect(() => {
+    const productList = carts.map(item => `${item.id}:${item.quantity}`).join(',');
+    console.log(orderDetails)
+  })
   const createOrder = async () => {
-    const now = new Date();
-    const currentDate = now.toISOString().split('T')[0];
-    const currentTime = now.toTimeString().split(' ')[0];
-    console.log(currentDate, currentTime);
-    console.log(cartTotal);
-    console.log(orderDetails);
-    const Order = {
-      date: currentDate,
-      time: currentTime,
-      total: totalAfterDiscount,
-      status: 'Ordered',
-      id: userDetails.userid
-    }
-
     try {
-      const response = await axios.put('http://localhost:3002/createOrder', Order);
-      toast.success('Order Placed.', { position: 'top-right',autoClose: 500 });
-      // console.log(response.data);
-      setorder_id(response.data.orderId);
-      let deliveryid;
-      let orderid = response.data.orderId;
-      //nested api
-      try {
-        const delivery = {
-          email: orderDetails.email,
-          address: orderDetails.address,
-          city: orderDetails.city,
-          paymentmethod: orderDetails.paymentMethod,
-          postalcode: orderDetails.postalCode,
-          phoneno: orderDetails.phone,
-          userid: userDetails.userid
-        }
-        console.log('delvery', delivery);
-        const insertinDeliveryTable = await axios.put('http://localhost:3002/deliveryinfo', delivery);
-
-        toast.success('userdetails added to delivery table..', { position: 'top-right',autoClose: 500 });
-        setdelivery_id(insertinDeliveryTable.data.id);
-        deliveryid = insertinDeliveryTable.data.id;
-        // console.log(insertinDeliveryTable.data);
-      } catch (err) {
-        console.log('error adding to delivery table.', err);
+      const now = new Date();
+      const currentDate = now.toISOString().split('T')[0];
+      const currentTime = now.toTimeString().split(' ')[0];
+      console.log(currentDate, currentTime);
+      console.log(cartTotal);
+      console.log(orderDetails);
+      const Order = {
+        date: `${currentDate}`,
+        time: `${currentTime}`,
+        total: totalAfterDiscount,
+        status: 'Ordered',
+        id: userDetails.userid,
+        email: `${orderDetails.email}`,
+        address: `${orderDetails.address}`,
+        city: `${orderDetails.city}`,
+        paymentmethod: `${orderDetails.paymentMethod}`,
+        postalcode: orderDetails.postalCode,
+        phoneno: `${orderDetails.phone}`
       }
-
-      try {
-        const insertindeliveryorder = {
-          deliver_yid: deliveryid,
-          ordera_id: orderid
-        }
-        const insertindeliveryordertable = await axios.put('http://localhost:3002/deliveryOrder', insertindeliveryorder);
-        toast.success('added in deliveryorder table.', { position: 'top-right',autoClose: 500 });
-        // console.log(insertindeliveryordertable.data);
-      } catch (err) {
-        toast.error('error inserting in delivery order table.');
-      }
+      const createOrder = await axios.put('http://localhost:3002/bhaihojaplease', Order);
+      toast.success(`${createOrder.data[0]}`);
+      console.log('ajeeb harkaten hain',createOrder.data)
+      let orderid = createOrder.data[0];
+      console.log('order id ye hai: ',orderid[0].order_id)
       try {
         console.log(carts);
+
         for (let i = 0; i < carts.length; i++) {
           console.log(carts[i].id);
           const orderproducts = {
             prod_id: carts[i].id,
-            orderrrid: orderid,
+            orderrrid: orderid[0].order_id,
             quantity: carts[i].quantity
           }
           const updateStock = {
@@ -91,7 +67,7 @@ function Checkoutdiv2() {
         toast.success('checked out');
       } catch (err) {
         console.log(err);
-        toast.error('Error occured',{ position: 'top-right',autoClose: 500 });
+        toast.error('Error occured', { position: 'top-right', autoClose: 500 });
       }
       try {
         const emptycart = {
@@ -107,12 +83,12 @@ function Checkoutdiv2() {
         console.log('Cart emptied successfully');
       } catch (err) {
         console.error('Error occurred:', err);
-        toast.error(`Error occurred: ${err.message}`, { position: 'top-right',autoClose: 500 });
+        toast.error(`Error occurred: ${err.message}`, { position: 'top-right', autoClose: 500 });
       }
 
       navigate('/OrderDetails7');
     } catch (err) {
-      toast.error('Server Error Occured.', { position: 'top-right',autoClose: 500 });
+      toast.error('Server Error Occured.', { position: 'top-right', autoClose: 500 });
     }
 
   }
@@ -164,7 +140,7 @@ function Checkoutdiv2() {
             <div className='prod_sum container'>
               <span className='qnty'>{item.quantity}</span>
               <img src={item.imgdata ? `http://localhost:PORT/uploads/${item.imgdata}` : item.imgurl}
-   alt={item.name} />
+                alt={item.name} />
               <p className='prod_name'>{item.name}</p>
               <p className='prod_price'>Total Rs. {item.price * item.quantity}</p>
             </div>
