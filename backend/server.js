@@ -67,8 +67,9 @@ app.post('/products', upload.single('imgdata'), (req, res) => {
   let addProdquery = ``;
   const { name, description, category, price, ratings, qnty, imgdata, imageUrl } = req.body;
   if (imageUrl == "") {
+    const imagePath = req.file ? `${req.file.filename}` : null;
     addProdquery = `INSERT INTO PRODUCTS (name, description, category, price, ratings, qnty, imgdata) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    db.query(addProdquery, [name, description, category, price, ratings, qnty, imgdata], (err, result) => {
+    db.query(addProdquery, [name, description, category, price, ratings, qnty, imagePath], (err, result) => {
       if (err) {
         return res.status(500).send('Error adding product');
       } else {
@@ -520,7 +521,7 @@ select p.*,op.quantity from orderProducts op inner join Orders o on o.order_id =
 })
 
 app.get('/admin/orders',(req,res) => {
-  const getorders = `select o.*,u.name,u.email,d.delivery_address,delivery_city,d.payment_method,d.postal_code,d.phoneNo from Orders o inner join users u on o.id = u.id inner join delivery d on u.id = d.id`;
+  const getorders = `select o.*,u.name,u.email,d.delivery_address,delivery_city,d.payment_method,d.postal_code,d.phoneNo from Orders o inner join users u on o.id = u.id inner join delivery d on o.delivery_id = d.delivery_id`;
   db.query(getorders,(err,result) => {
     if(err){
       res.status(400).json({message: 'Error fetching PRODUCTS'});
