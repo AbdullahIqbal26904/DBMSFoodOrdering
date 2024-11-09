@@ -53,7 +53,7 @@ app.put('/bhaihojaplease', (req, res) => {
   // Log the incoming request for debugging
   console.log('Creating order with the following details:', req.body);
 
-  const callProcedure = `CALL make_Order4(?,?,?,?,?,?,?,?,?,?)`; // Make sure the procedure name matches
+  const callProcedure = `CALL finalised_order12(?,?,?,?,?,?,?,?,?,?)`; // Make sure the procedure name matches
 
   db.query(callProcedure, [date, time, total, status, id, address, city, paymentmethod, postalcode, phoneno], (err, result) => {
       if (err) {

@@ -45,47 +45,6 @@ function Checkoutdiv2() {
       console.log('ajeeb harkaten hain',createOrder.data)
       let orderid = createOrder.data[0];
       console.log('order id ye hai: ',orderid[0].order_id)
-      try {
-        console.log(carts);
-
-        for (let i = 0; i < carts.length; i++) {
-          console.log(carts[i].id);
-          const orderproducts = {
-            prod_id: carts[i].id,
-            orderrrid: orderid[0].order_id,
-            quantity: carts[i].quantity
-          }
-          const updateStock = {
-            productid: carts[i].id,
-            productquantity: carts[i].quantity
-          }
-          console.log(orderproducts);
-          const orderproductstable = await axios.put('http://localhost:3002/orderproductstable', orderproducts);
-          const updatestockinproductstable = await axios.put('http://localhost:3002/updatestock', updateStock);
-        }
-        toast.success('Stock updated');
-        toast.success('checked out');
-      } catch (err) {
-        console.log(err);
-        toast.error('Error occured', { position: 'top-right', autoClose: 500 });
-      }
-      try {
-        const emptycart = {
-          useraid: userDetails.userid // Ensure this matches the server's expected variable name
-        };
-        console.log('User ID:', userDetails.userid);
-
-        // Send the DELETE request with the `data` payload
-        const emptycartitemstable = await axios.delete('http://localhost:3002/emptycart', {
-          data: emptycart
-        });
-        toast.success(`Cart emptied. ${emptycartitemstable.data.message}`, { position: 'top-right' });
-        console.log('Cart emptied successfully');
-      } catch (err) {
-        console.error('Error occurred:', err);
-        toast.error(`Error occurred: ${err.message}`, { position: 'top-right', autoClose: 500 });
-      }
-
       navigate('/OrderDetails7');
     } catch (err) {
       toast.error('Server Error Occured.', { position: 'top-right', autoClose: 500 });
