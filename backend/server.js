@@ -140,20 +140,6 @@ app.post('/login', (req, res) => {
     }
   });
 });
-// app.post('/login', (req, res) => {
-//   const { email, password } = req.body;
-//   const query2 = 'SELECT * FROM users WHERE Email = ? AND Password = ?';
-//   db.query(query2, [email, password], (err, result) => {
-//     if (err) {
-//       return res.status(500).send('Error logging in');
-//     }
-//     if (result.length > 0) {
-//       res.send(result);
-//     } else {
-//       res.status(401).send('Invalid credentials');
-//     }
-//   });
-// });
 app.post('/createCart', (req, res) => {
   const { created_date, created_time, id } = req.body;
   const checkCartQuery = 'SELECT * FROM Cart WHERE id = ?';
@@ -257,21 +243,6 @@ app.put("/updatequantity", (req, res) => {
 })
 
 
-app.put('/deliveryOrder', (req, res) => {
-  const { deliver_yid, ordera_id } = req.body;
-  const insertindeliveryorder = `INSERT INTO deliveryOrder (delivery_id,order_id) VALUES (?,?)`;
-  db.query(insertindeliveryorder, [deliver_yid, ordera_id], (err, result) => {
-    if (err) {
-      res.status(500).send('Server error');
-    } else {
-      const lastInsertedId = result.insertId;
-
-      // Respond with the last inserted ID
-      return res.status(201).json({ delivery_orderid: lastInsertedId });
-    }
-  })
-})
-
 app.put('/orderproductstable', (req, res) => {
   const { prod_id, orderrrid, quantity } = req.body;
   const addtoorderproducts = `INSERT INTO orderProducts (id,order_id,quantity) VALUES(?,?,?)`;
@@ -287,45 +258,8 @@ app.put('/orderproductstable', (req, res) => {
   })
 })
 
-app.delete('/emptycart', (req, res) => {
-  const { useraid } = req.body; // Should match what you're sending from the client
 
-  if (!useraid) {
-    return res.status(400).json({ message: 'User ID is required' });
-  }
 
-  const delquery = `
-      DELETE ci FROM users u 
-      inner join Cart c on c.id = u.id 
-      inner join cartItems ci on ci.cart_id = c.cart_id 
-      where u.id = ?`;
-
-  console.log('Deleting cart of user id:', useraid);
-
-  db.query(delquery, [useraid], (err, result) => {
-    if (err) {
-      console.error('Error:', err);
-      return res.status(500).json({ message: 'An error occurred while emptying the cart' });
-    }
-
-    console.log('Cart emptied for user id:', useraid);
-    res.status(200).json({ message: 'Cart emptied successfully' });
-  });
-});
-
-app.put('/updatestock', (req, res) => {
-  const { productid, productquantity } = req.body;
-  const updatestock = `UPDATE PRODUCTS SET qnty = qnty - ? WHERE id = ?`;
-  db.query(updatestock, [productquantity, productid], (err, result) => {
-    if (err) {
-      res.status(500).json({ message: 'Quantity update unsuccessful' });
-    } else {
-      const lastInsertedId = result.insertId;
-      // Respond with the last inserted ID
-      return res.status(201).json({ updatedproduct: lastInsertedId });
-    }
-  })
-})
 
 // Order placement ends here
 app.get('/getCart/:id', (req, res) => {
