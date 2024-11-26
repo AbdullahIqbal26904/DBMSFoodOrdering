@@ -301,9 +301,9 @@ app.get('/productsbyrange', async (req, res) => {
 })
 
 app.get('/getproducts', (req, res) => {
-  const query = 'SELECT * FROM `PRODUCTS`';
+  const query1 = 'SELECT * FROM `PRODUCTS`';
 
-  db.query(query, (err, result) => {
+  db.query(query1, (err, result) => {
     if (err) {
       return res.status(500).send('Error retrieving products');
     }
@@ -417,6 +417,20 @@ app.delete("/deletefromcart/:id/:cartid", (req, res) => {
     }
   })
 })
+
+app.get('/getproducts',(req,res) => {
+const getdata = `SELECT * FROM PRODUCTS`;
+db.query(getdata,(err,result)=>{
+  if(err){
+    res.status(500).json({
+      message: 'Error deleting product from cart',
+    });
+  }else{
+    res.json(result);
+  }
+})
+}
+)
 
 app.get('/topselling', (req, res) => {
   const query = `SELECT * FROM PRODUCTS ORDER BY prod_sold DESC LIMIT 6`;

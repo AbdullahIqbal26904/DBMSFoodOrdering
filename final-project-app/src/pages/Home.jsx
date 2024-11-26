@@ -32,10 +32,11 @@ function Home() {
   // const navigate = useNavigate();
   const [cartfromdb, setcartfromdb] = useState();
   // const [carttotal, setcarttotal] = useState();
-
+  const [isLoading, setIsLoading] = useState(false);
   async function showbrakfast() {
     setshowlunch(false);
     // console.log("hello world!")
+    setIsLoading(true);
     const category = "Breakfast"; // Assuming you want to send this as a query parameter
     try {
       const response = await axios.get(`http://localhost:3002/lunch?category=${category}`);
@@ -45,11 +46,12 @@ function Home() {
       // console.log(err);
       toast.error("Server Error");
     }
-
+    setIsLoading(false);
   }
   async function showlunchh() {
     // console.log(userDetails);
-    setshowlunch(true)
+    setshowlunch(true);
+    setIsLoading(true);
     // console.log("hello world2!");
     const category = "Lunch"; // Assuming you want to send this as a query parameter
     try {
@@ -60,10 +62,12 @@ function Home() {
       // console.log(err);
       toast.error("Server Error");
     }
+    setIsLoading(false);
   }
 
   async function showdinner() {
     // console.log("hello world3!")
+    setIsLoading(true);
     const category = "Dinner"; // Assuming you want to send this as a query parameter
     try {
       const response = await axios.get(`http://localhost:3002/lunch?category=${category}`);
@@ -75,6 +79,7 @@ function Home() {
     }
 
     setshowlunch(true);
+    setIsLoading(false);
   }
 
   // useEffect(() => {
@@ -115,6 +120,7 @@ function Home() {
   // }, [getdata, show_cart_details, cart.cartid]);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchdata = async () => {
       try {
         const { data } = await axios.get("http://localhost:3002/getcartdata", {
@@ -145,6 +151,8 @@ function Home() {
     setCartOpen(show_cart_details);
 
     console.log('Effect is running');
+    setIsLoading(false);
+
   }, [getdata, show_cart_details, cart.cartid, dispatch]);
 
 
@@ -157,6 +165,8 @@ function Home() {
     dispatch(set_show_cart(false));
   };
   useEffect(() => {
+    setIsLoading(true);
+
     if (cartOpen) {
       document.body.style.overflow = 'hidden'; // Disable scroll
     } else {
@@ -167,6 +177,8 @@ function Home() {
     return () => {
       document.body.style.overflow = 'auto';
     };
+    setIsLoading(false);
+
   }, [cartOpen]);
   return (
     <div>

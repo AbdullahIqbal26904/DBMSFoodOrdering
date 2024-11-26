@@ -11,11 +11,11 @@ import Admin from './pages/Admin'
 import OrderPage from './pages/OrderPage'
 import PrivateRoute from './components/PrivateRoute'
 import OrderDetails7 from './components/OrderDetails7'
+import FoodCard from './components/FoodCard'
 const App = () => {
-    const [isCartOpen, setIsCartOpen] = useState(false);
+    
     return (
-        <div>
-            
+        <div className={'main'}>
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/shop' element={<Shop />} />
@@ -37,6 +37,8 @@ const App = () => {
             {/* <HomeReviews/> */}
              {/* <button onClick={() => setIsCartOpen(true)}>Open Cart</button>
             <ShoppingCartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} /> */}
+                {/* <Route path='/FoodCard' element={<FoodCard />} /> */}
+
         </div>
     )
 }
