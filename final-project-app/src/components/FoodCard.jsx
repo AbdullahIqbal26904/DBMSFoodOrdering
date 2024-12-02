@@ -72,10 +72,10 @@ function FoodCard (props)  {
             <h2>{element.name}</h2>
             <span className="text-yellow ">{element.price}</span>
          </div>
-         <p className="text-sm font-normal">{element.description.slice(0, 20)}...</p>
+         <p className="text-sm font-normal">{element.description.slice(0, 25)}...</p>
          <div className="flex justify-between ">
             <span className="flex items-center justify-center">
-               <AiFillStar className="mr-1 text-yellow" /> {element.rating}
+               <AiFillStar className="mr-1 text-yellow" /> {element.ratings}
             </span>
 
             {/* Add to Cart */}

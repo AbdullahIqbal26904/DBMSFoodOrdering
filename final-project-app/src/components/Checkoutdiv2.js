@@ -20,7 +20,6 @@ function Checkoutdiv2() {
     console.log(orderDetails)
   })
   const createOrder = async () => {
-    try {
       const now = new Date();
       const currentDate = now.toISOString().split('T')[0];
       const currentTime = now.toTimeString().split(' ')[0];
@@ -40,14 +39,16 @@ function Checkoutdiv2() {
         postalcode: orderDetails.postalCode,
         phoneno: `${orderDetails.phone}`
       }
+    try {
       const createOrder = await axios.put('http://localhost:3002/bhaihojaplease', Order);
-      toast.success(`${createOrder.data[0]}`);
-      console.log('ajeeb harkaten hain',createOrder.data)
-      let orderid = createOrder.data[0];
-      console.log('order id ye hai: ',orderid[0].order_id)
+      toast.success(`Order Placed`);
+      // console.log('ajeeb harkaten hain', createOrder.data)
+      // let orderid = createOrder.data[0];
+      // console.log('order id ye hai: ', orderid[0].order_id)
       navigate('/OrderDetails7');
     } catch (err) {
-      toast.error('Server Error Occured.', { position: 'top-right', autoClose: 500 });
+      console.log('ab kya kru')
+      toast.error('Yaha error aya hai.', { position: 'top-right', autoClose: 500 });
     }
 
   }

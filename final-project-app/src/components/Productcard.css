@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;0,600;0,700;1,400;1,600&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,500&display=swap');
 
 
-/* body{
-    position: relative;
-} */
-
 .hove {
   border-radius: 10px;
   cursor: pointer;
@@ -64,11 +60,6 @@
   object-fit: cover;
 }
 
-/* .search{
-    right: 20px;
-    top: 30px;
-    background-color: white;
-} */
 .upper_data h4 {
   font-size: 18px;
   color: rgba(17, 17, 17, 0.849);
@@ -158,7 +149,7 @@
 
 }
 
-.search .circle_button {
+.circle_button {
   position: absolute;
   width: 40px;
   height: 40px;
@@ -174,7 +165,11 @@
   color: black;
   font-weight: bold;
 }
-
+.circle_button .eye{
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+}
 @keyframes pulse {
 
   0%,

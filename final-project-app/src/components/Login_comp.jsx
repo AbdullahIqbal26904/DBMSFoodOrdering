@@ -157,12 +157,12 @@ function Login_comp() {
                         <div className="toggle-panel toggle-left">
                             <h1>Get Started by Logging In</h1>
                             <p>Enter Your Credentials and Let’s Feast!</p>
-                            <button className="hidden" onClick={hover} id="login">Sign In</button>
+                            <button className="hidd" onClick={hover} id="login">Sign In</button>
                         </div>
                         <div className="toggle-panel toggle-right">
                             <h1>Reconnect with Your Taste Buds!</h1>
                             <p>New Here? Sign Up and Join the Fun!</p>
-                            <button className="hidden" onClick={hover} id="register">Sign Up</button>
+                            <button className="hidd" onClick={hover} id="register">Sign Up</button>
                         </div>
                     </div>
                 </div>

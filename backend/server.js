@@ -61,6 +61,7 @@ app.put('/bhaihojaplease', (req, res) => {
           return res.status(500).send('Error occurred while creating the order.'); // Send a more descriptive error message
       }
       res.json(result); // Send the result back to the frontend
+      console.log('order is placed.');
   });
 });
 app.post('/products', upload.single('imgdata'), (req, res) => {
@@ -218,7 +219,17 @@ app.get("/getcartdata", (req, res) => {
     }
   })
 })
-
+app.get("/getcategory", (req, res) => {
+  const get_query = `SELECT * FROM foodCategories`;
+  // console.log("fetching data of cart: ", cart_id);
+  db.query(get_query, (err, result) => {
+    if (err) {
+      console.log('Cannot be fetched.')
+    } else if (result.length > 0) {
+      res.json(result);
+    }
+  })
+})
 app.get(`/getcarttotal`, (req, res) => {
   const { cart_id2 } = req.query;
   const get_cart_total = `select sum(ci.total_item_price) as total from cartItems ci inner join Cart c on ci.cart_id = c.cart_id where c.cart_id = ?`
@@ -441,7 +452,7 @@ app.get('/topselling', (req, res) => {
 })
 app.get('/lunch', (req, res) => {
   const category = req.query.category; // Get category from query parameters
-  const query = `SELECT * FROM PRODUCTS WHERE category = ? LIMIT 6`;
+  const query = `select p.*,fc.food_catname from foodCategories fc join products p on p.food_categoryid = fc.food_catid where food_catname = 'Snacks'`;
   db.query(query, [category], (err, result) => {
     if (err) throw err;
     res.send(result);
@@ -548,7 +559,7 @@ app.get('/admin/orders',(req,res) => {
 
 app.get('/orders/product',(req,res) => {
   const {orderId} = req.query;
-  const getallproducts = `select o.order_id,op.quantity,p.name,p.category,p.price,p.imgdata,imgurl from PRODUCTS p inner join orderProducts op on op.id = p.id inner join orders o on o.order_id = op.order_id where o.order_id = ?`;
+  const getallproducts = `select o.order_id,op.quantity,p.name,p.price,p.imgdata,imgurl from PRODUCTS p inner join orderProducts op on op.id = p.id inner join orders o on o.order_id = op.order_id where o.order_id = ?`;
   db.query(getallproducts,[orderId],(err,result) => {
     if(err){
       res.status(400).json({message: 'Error fetching products'});
@@ -560,9 +571,9 @@ app.get('/orders/product',(req,res) => {
 })
 
 app.put('/updateProduct',(req,res) => {
-  const {id,name,description,category,price,qnty,imgurl} = req.body;
-  console.log(id,name,description,category,price,qnty);
-  const update = `UPDATE PRODUCTS SET name = ?,description = ?,category = ?,price=?,qnty=?,imgurl=? where id = ?`
+  const {id,name,description,price,qnty,imgurl} = req.body;
+  console.log(id,name,description,price,qnty);
+  const update = `UPDATE PRODUCTS SET name = ?,description = ?,price=?,qnty=?,imgurl=? where id = ?`
   db.query(update,[name,description,category,price,qnty,imgurl,id],(err,result) => {
     if(err){
       res.status(404).json(err);

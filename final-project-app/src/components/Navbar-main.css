@@ -24,8 +24,6 @@ nav:hover{
     background-color: #353432;
     cursor: pointer;
 }
-.NavLink{
-}
 .NavLink::after {
     content: '';
     position: absolute;
@@ -48,7 +46,9 @@ nav:hover{
     margin-right: 10px;
 }
 nav .title{
-    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
     margin: 1rem;
     font-weight: bold;
     text-decoration: none;

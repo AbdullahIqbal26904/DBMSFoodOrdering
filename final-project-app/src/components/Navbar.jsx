@@ -18,7 +18,7 @@ function Navbar() {
   return (
     <div>
       <nav>
-        <Link className='title' to="/">
+        <Link className={'title'} to="/">
           <img className='logo' src={logo} alt="logo" />
           TasteBuds Cafe
         </Link>
@@ -36,7 +36,7 @@ function Navbar() {
             <NavLink to="/" className="NavLink">HOME</NavLink>
           </li>
           <li>
-            <Link to="/shop" className="NavLink">SHOP</Link>
+            <NavLink to="/shop" className="NavLink">SHOP</NavLink>
           </li>
           <li>
             <NavLink to="/contact" className="NavLink">CONTACT</NavLink>
