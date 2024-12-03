@@ -6,6 +6,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { FaUserAlt } from "react-icons/fa";
 import { useSelector,useDispatch } from 'react-redux';
 import { set_show_cart } from '../redux/features/cartSlice';
+import Profile from '../pages/Profile';
 function Navbar() {
   const [menuOpen, setmenuOpen] = useState(false);
   const { userDetails } = useSelector((state) => state.allCart);
@@ -53,7 +54,7 @@ function Navbar() {
             <div className="dropdown">
               {userDetails ? (
                 <>
-                  <NavLink to="/Loginpage" className="dropdown-item">Profile</NavLink>
+                  <NavLink to="/Profile" className="dropdown-item">Profile</NavLink>
                   <NavLink to="/Loginpage" className="dropdown-item">Logout</NavLink>
                 </>
               ) : (

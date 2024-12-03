@@ -11,7 +11,7 @@ import Admin from './pages/Admin'
 import OrderPage from './pages/OrderPage'
 import PrivateRoute from './components/PrivateRoute'
 import OrderDetails7 from './components/OrderDetails7'
-import FoodCard from './components/FoodCard'
+import Profile from './pages/Profile'
 const App = () => {
     
     return (
@@ -23,6 +23,7 @@ const App = () => {
                 <Route path='/Aboutus' element={<AboutUs />} />
                 <Route path='/Checkout' element={<Checkout />} />
                 <Route path='/Loginpage' element={<Loginpage />} />
+                <Route path='/Profile' element={<Profile />} />
                 <Route
                     path='/Admin'
                     element={

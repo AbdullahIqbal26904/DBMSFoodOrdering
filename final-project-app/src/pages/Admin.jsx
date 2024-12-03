@@ -102,7 +102,7 @@ const Admin = () => {
             try {
                 const response = await axios.get('http://localhost:3002/admin/orders');
                 setOrders(response.data);
-                console.log('Orders fetched',response.data);
+                console.log('Orders fetched', response.data);
             } catch (error) {
                 console.error('Error fetching orders:', error);
             }
@@ -174,8 +174,8 @@ const Admin = () => {
             setorderProducts((prevProducts) => ({
                 ...prevProducts,
                 [orderId]: response.data,
-            })); 
-            console.log('products of order: ',response.data);
+            }));
+            console.log('products of order: ', response.data);
             console.log(orderProducts);
         } catch (err) {
             console.error('Error fetching products:', err);
@@ -199,6 +199,26 @@ const Admin = () => {
         }
         showtable(true);
     }
+    const [orderStatus, setOrderStatus] = useState({});
+
+    // Function to handle status update API call
+    const handleUpdateStatus = async (orderId, newStatus) => {
+        try {
+            await axios.put(`http://localhost:3002/updateOrderStatus`, {
+                order_id: orderId,
+                order_status: newStatus,
+            });
+            // Update local state after successful update
+            setOrderStatus((prevState) => ({
+                ...prevState,
+                [orderId]: newStatus,
+            }));
+            alert(`Order #${orderId} status updated to ${newStatus}`);
+        } catch (error) {
+            console.error("Error updating order status:", error);
+            alert("Failed to update order status.");
+        }
+    };
     return (
         <div className='mainyehai'>
             <div className='admin_header'>
@@ -227,6 +247,22 @@ const Admin = () => {
                                     <p><strong>Order Time:</strong> {order.order_Time}</p>
                                     <p className={`status ${order.status}`}>Status: {order.order_status}</p>
                                 </div>
+                                <p className={`status ${order.order_status}`}>
+                                    Status: {orderStatus[order.order_id] || order.order_status}
+                                </p>
+                                <select
+                                    value={orderStatus[order.order_id] || order.order_status}
+                                    onChange={(e) =>
+                                        handleUpdateStatus(order.order_id, e.target.value)
+                                    }
+                                >
+                                    <option value="Ordered" disabled>
+                                        Ordered
+                                    </option>
+                                    <option value="Prepared">Prepared</option>
+                                    <option value="dispatched">Dispatched</option>
+                                    <option value="delivered">Delivered</option>
+                                </select>
                                 <div className="delivery-info">
                                     <p><strong>Address:</strong> {order.delivery_address}</p>
                                     <p><strong>Phone:</strong> {order.phoneNo}</p>
@@ -237,7 +273,7 @@ const Admin = () => {
                                     <h4>Products</h4>
                                     <div className="product-list">
                                         {(orderProducts[order.order_id] || []).map((product) => (
-                                            <div key={product.id} className="product-item"> 
+                                            <div key={product.id} className="product-item">
                                                 <img src={product.imgdata ? `http://localhost:3002/uploads/${product.imgdata}` : product.imgurl}
                                                     alt={product.name} className="product-image" />
                                                 <div className="product-details">
@@ -250,28 +286,7 @@ const Admin = () => {
 
                                     </div>
                                 </div>
-                                <div className="order-actions">
-                                    {order.status !== 'dispatched' && (
-                                        <button
-                                            // onClick={() => handleStatusUpdate(order.order_id)} 
-                                            onClick={() => setisOpen(!isOpen)}
-                                            className="dispatch-btn"
-                                        >
-                                            Mark as Dispatched
-                                        </button>
 
-                                    )}
-                                    {
-                                        isOpen && <ul className=''>
-                                            {
-                                                status.map((item, index) => (
-                                                    <li key={index} style={{ color: 'red' }}>{item}</li>
-                                                ))
-                                            }
-                                        </ul>
-
-                                    }
-                                </div>
                             </div>
                         ))}
                     </div>

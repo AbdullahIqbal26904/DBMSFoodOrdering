@@ -8,23 +8,19 @@ import pic7 from '../pics/f4.png';
 import pic8 from '../pics/f5.png';
 import pic9 from '../pics/f6.png';
 import CategoryHead from '../components/CategoryHead.jsx';
-
 import rotate from '../pics/hero.png'
 import axios from 'axios';
 import './CartModal.css'
-import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { addtocart, set_show_cart,setcategory } from '../redux/features/cartSlice';
-// import { useNavigate } from 'react-router-dom';
+import { addtocart, set_show_cart, setcategory } from '../redux/features/cartSlice';
 import Cart_comp from '../components/Cart_comp';
 import Footer from '../components/Footer.jsx'
 import ParallaxSection from '../components/ParallaxSection.jsx';
 import HomeReviews from '../components/HomeReviews.jsx';
 import Team from '../components/Team.jsx';
-import Modal from '../components/Modal.jsx';
+
 function Home() {
   const [products, setproducts] = useState();
-  
   const { cart, show_cart_details } = useSelector((state) => state.allCart);
   const dispatch = useDispatch();
   const [getdata, setgetdata] = useState(true);
@@ -54,14 +50,10 @@ function Home() {
       }
     };
     const getCategory = async () => {
-    
+
       try {
         const response = await axios.get('http://localhost:3002/getcategory');
-        // console.log('Categories ye hai: ', response.data);
         const dataforcat = response.data;
-        // Dispatch the setcategory action to store the fetched data in Redux
-        // dispatch(setcategory(response.data));
-        // dispatch(setcategory(dataforcat));
         dispatch(setcategory(dataforcat));
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -73,10 +65,7 @@ function Home() {
       getCategory();
       setgetdata(false); // Prevents further fetching on re-renders
     }
-
     setCartOpen(show_cart_details);
-
-    // console.log('Effect is running');
     setIsLoading(false);
 
   }, [getdata, show_cart_details, cart.cartid, dispatch]);
@@ -90,20 +79,14 @@ function Home() {
     dispatch(set_show_cart(false));
   };
   useEffect(() => {
-    setIsLoading(true);
-
     if (cartOpen) {
       document.body.style.overflow = 'hidden'; // Disable scroll
     } else {
       document.body.style.overflow = 'auto'; // Enable scroll
     }
-
-    // Cleanup function to reset overflow when the component is unmounted or cartOpen changes
     return () => {
       document.body.style.overflow = 'auto';
     };
-    setIsLoading(false);
-
   }, [cartOpen]);
   return (
     <div>
@@ -114,10 +97,6 @@ function Home() {
             <button className="close-button" onClick={toggleCart}>×</button>
           </div>
           <Cart_comp data={cartfromdb} />
-
-
-          {/* Cart Modal */}
-
         </div>
         <div className={styles.nav2}>
           <Navbar />
@@ -134,7 +113,6 @@ function Home() {
               <img className={styles.rotateimg} src={rotate} alt="" />
             </div>
           </div>
-          {/* {<button className="show-cart-button" onClick={toggleCart}>Show Cart</button>} */}
           <div id={styles.feature}>
             <div className={styles.febox}>
               <img src={pic4} alt="" />
@@ -184,12 +162,8 @@ function Home() {
             <h2>Up to <span>70%</span> off-On all Lunch Items</h2>
             <button>Explore more</button>
           </div>
-
-          
-
         </div>
-          <CategoryHead/>
-
+        <CategoryHead />
         <div>
           <Team />
         </div>

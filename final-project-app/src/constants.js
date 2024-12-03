@@ -1,0 +1,2 @@
+export const GOOGLE_SHEET_URL="https://docs.google.com/spreadsheets/d/1QrVdNBZjG2aa9rL-sTbxwX3DlbXLStOwLI1ie6pbS4Y/edit?usp=sharing";
+export const API_URL="https://v1.nocodeapi.com/vaibhxv11/google_sheets/nPMhdfnNPesqGiQY?tabId=Sheet1"

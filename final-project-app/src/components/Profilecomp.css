@@ -1,0 +1,86 @@
+/* Full page layout */
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Content area */
+.profile-content {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Footer should always be at the bottom */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+}
+
+/* Orders Section */
+.order-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Order Card */
+.order-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-card h3 {
+    color: #007bff;
+}
+
+/* Replace Order Button */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+.no-orders {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.no-orders h2 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.no-orders p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .order-card {
+        width: 100%;
+    }
+}

@@ -546,7 +546,7 @@ select p.*,op.quantity from orderProducts op inner join Orders o on o.order_id =
 })
 
 app.get('/admin/orders',(req,res) => {
-  const getorders = `select o.*,u.name,u.email,d.delivery_address,delivery_city,d.payment_method,d.postal_code,d.phoneNo from Orders o inner join users u on o.id = u.id inner join delivery d on o.delivery_id = d.delivery_id`;
+  const getorders = `select o.*,u.name,u.email,d.delivery_address,delivery_city,d.payment_method,d.postal_code,d.phoneNo from Orders o inner join users u on o.id = u.id inner join delivery d on o.delivery_id = d.delivery_id where order_status = 'Ordered'`;
   db.query(getorders,(err,result) => {
     if(err){
       res.status(400).json({message: 'Error fetching PRODUCTS'});
@@ -556,7 +556,19 @@ app.get('/admin/orders',(req,res) => {
     }
   })
 })
-
+app.get('/userprevorders',(req,res) => {
+  const { user_id } = req.query;
+  console.log(user_id);
+  const getorders = `select o.*,u.name,u.email,d.delivery_address,delivery_city,d.payment_method,d.postal_code,d.phoneNo from Orders o inner join users u on o.id = u.id inner join delivery d on o.delivery_id = d.delivery_id where order_status = 'Ordered' AND u.id = ?`;
+  db.query(getorders,[user_id],(err,result) => {
+    if(err){
+      res.status(400).json({message: 'Error fetching PRODUCTS'});
+    }else{
+      console.log(result);
+      res.json(result);
+    }
+  })
+})
 app.get('/orders/product',(req,res) => {
   const {orderId} = req.query;
   const getallproducts = `select o.order_id,op.quantity,p.name,p.price,p.imgdata,imgurl from PRODUCTS p inner join orderProducts op on op.id = p.id inner join orders o on o.order_id = op.order_id where o.order_id = ?`;
@@ -574,7 +586,7 @@ app.put('/updateProduct',(req,res) => {
   const {id,name,description,price,qnty,imgurl} = req.body;
   console.log(id,name,description,price,qnty);
   const update = `UPDATE PRODUCTS SET name = ?,description = ?,price=?,qnty=?,imgurl=? where id = ?`
-  db.query(update,[name,description,category,price,qnty,imgurl,id],(err,result) => {
+  db.query(update,[name,description,price,qnty,imgurl,id],(err,result) => {
     if(err){
       res.status(404).json(err);
     }else{
@@ -582,6 +594,19 @@ app.put('/updateProduct',(req,res) => {
     }
   })
 })
+
+app.put("/updateOrderStatus", async (req, res) => {
+  const { order_id, order_status } = req.body;
+
+  try {
+    const query = `UPDATE Orders SET order_status = ? WHERE order_id = ?`;
+    await db.execute(query, [order_status, order_id]);
+    res.status(200).json({ message: "Order status updated successfully." });
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    res.status(500).json({ message: "Failed to update order status." });
+  }
+});
 
 const port = process.env.PORT;
 app.listen(port, () => {
