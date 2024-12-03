@@ -80,7 +80,7 @@ const Profilecomp = () => {
                                     <p className={`status ${order.order_status}`}>Status: {order.order_status}</p>
                                 </div>
                                 <button onClick={() => handleReplaceOrder(order.order_id)}>
-                                    Replace Order
+                                    Replace Orders
                                 </button>
                                 <div className="delivery-info">
                                     <p><strong>Address:</strong> {order.delivery_address}</p>
