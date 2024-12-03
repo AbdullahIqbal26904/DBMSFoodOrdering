@@ -163,7 +163,10 @@ function Home() {
             <button>Explore more</button>
           </div>
         </div>
-        <CategoryHead />
+        <div>
+          <CategoryHead />
+
+        </div>
         <div>
           <Team />
         </div>

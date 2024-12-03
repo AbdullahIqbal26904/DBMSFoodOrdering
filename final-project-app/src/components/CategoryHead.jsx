@@ -5,7 +5,7 @@ import pic12 from '../pics/lunch.jpeg'
 import './CategoryHead.css';
 import { useDispatch, useSelector } from 'react-redux';
 import arrow from '../pics/arrow.png';
-import Productcard from '../components/Productcard';
+import Productcard from './Productcard';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 function CategoryHead() {
@@ -23,11 +23,11 @@ function CategoryHead() {
   const scrollRight = () => {
     sliderRef.current.scrollBy({ left: 200, behavior: 'smooth' });
   };
-  async function showbrakfast() {
+  async function showbrakfast(category) {
     console.log('first')
-    setshowlunch(false);
+    setshowlunch(true);
     // console.log("hello world!")
-    const category = "Breakfast"; // Assuming you want to send this as a query parameter
+    // const category = "Breakfast"; // Assuming you want to send this as a query parameter
     try {
       const response = await axios.get(`http://localhost:3002/lunch?category=${category}`);
       setlunch(response.data);
@@ -50,13 +50,12 @@ function CategoryHead() {
   // })
   return (
     <div>
-      <button className="slider-btn left" onClick={scrollLeft}>{"<"}</button>
-      <div ref={sliderRef} onClick={showbrakfast} className="categoryhead">
+      <div ref={sliderRef}  className="categoryhead">
         {categories &&
           categories.map((item) => {
             return (
               <div key={item.food_catid}>
-                <div onClick={scrollRight} className="category1">
+                <div onClick={() => showbrakfast(item.food_catname)} className="category1">
                   <img src={pic11} alt="" />
                 </div>
                 <span>{item.food_catname}</span>
@@ -64,20 +63,19 @@ function CategoryHead() {
             );
           })}
       </div>
-      <button className="slider-btn right" onClick={scrollRight}>{">"}</button>
-      <div className={showlunch ? 'visible' : 'notvisible'}>
-            <button className={'prebtn'}><img src={arrow} alt="" /></button>
-            <button className={'nxtbtn'}><img src={arrow} alt="" /></button>
-            <div className={'productcontainer'}>
-              {lunch && lunch.map((item) => {
-                return (
-                  <div className={'productcard'} key={item.id}>
-                    <Productcard data={item} />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+      <div className={showlunch ? '' : 'notvisible'}>
+        <button className={'prebtn'}><img src={arrow} alt="" /></button>
+        <button className={'nxtbtn'}><img src={arrow} alt="" /></button>
+        <div className={'productcontainer'}>
+          {lunch && lunch.map((item) => {
+            return (
+              <div className={'productcard'} key={item.id}>
+                <Productcard data={item} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   )
 }

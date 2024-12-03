@@ -452,7 +452,7 @@ app.get('/topselling', (req, res) => {
 })
 app.get('/lunch', (req, res) => {
   const category = req.query.category; // Get category from query parameters
-  const query = `select p.*,fc.food_catname from foodCategories fc join products p on p.food_categoryid = fc.food_catid where food_catname = 'Snacks'`;
+  const query = `select p.*,fc.food_catname from foodCategories fc join products p on p.food_categoryid = fc.food_catid where food_catname = ?`;
   db.query(query, [category], (err, result) => {
     if (err) throw err;
     res.send(result);
