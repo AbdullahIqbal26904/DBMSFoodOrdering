@@ -54,8 +54,8 @@ function Navbar() {
             <div className="dropdown">
               {userDetails ? (
                 <>
-                  <NavLink to="/Profile" className="dropdown-item">Profile</NavLink>
-                  <NavLink to="/Loginpage" className="dropdown-item">Logout</NavLink>
+                  <NavLink to="/Profile" className="dropdown-item">Previous Orders</NavLink>
+                  <NavLink to="/Loginpage" className="dropdown-item">Login</NavLink>
                 </>
               ) : (
                 <NavLink to="/Loginpage" className="dropdown-item">Login</NavLink>

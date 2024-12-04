@@ -245,7 +245,6 @@ const Admin = () => {
                                     <p><strong>Email:</strong> {order.email}</p>
                                     <p><strong>Order Date:</strong> {order.order_Date}</p>
                                     <p><strong>Order Time:</strong> {order.order_Time}</p>
-                                    <p className={`status ${order.status}`}>Status: {order.order_status}</p>
                                 </div>
                                 <p className={`status ${order.order_status}`}>
                                     Status: {orderStatus[order.order_id] || order.order_status}

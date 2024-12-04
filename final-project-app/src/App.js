@@ -12,10 +12,13 @@ import OrderPage from './pages/OrderPage'
 import PrivateRoute from './components/PrivateRoute'
 import OrderDetails7 from './components/OrderDetails7'
 import Profile from './pages/Profile'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 const App = () => {
     
     return (
         <div className={'main'}>
+            
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/shop' element={<Shop />} />

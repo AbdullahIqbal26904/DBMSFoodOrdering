@@ -86,9 +86,10 @@ function Productcard(props) {
 
               <div className="lower_data d-flex justify-content-between ">
                 <h5>{element.category}</h5>
-                <span>RS. {element.price}</span>
+                <span>Rs. {element.price}</span>
               </div>
-
+              <hr />
+              <hr />
               <div className="last_data d-flex justify-content-between align-items-center">
                 <img src={arrimg} className='limg' alt="" />
                 <Button style={{ width: "150px", background: "#088178", border: "none" }} variant='outline-light'

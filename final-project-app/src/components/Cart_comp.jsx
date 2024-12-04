@@ -100,7 +100,7 @@ function Cart_comp() {
               />
               <div className="product-details">
                 <div className="product-name">{product.name}</div>
-                <div className="product-price">${product.price.toFixed(2)}</div>
+                <div className="product-price">Rs.{product.price.toFixed(2)}</div>
                 <div className="size-selection">
                   <select value={product.size} onChange={(e) => handleSizeChange(product.id, e.target.value)}>
                     <option value="Small">Small</option>
@@ -123,7 +123,7 @@ function Cart_comp() {
       </div>
       <div className="cart-summary">
         <div className="total-price">
-          Total: ${cartTotal}
+          Total: Rs.{cartTotal}
         </div>
         <button
           onClick={handleButtonClick2}

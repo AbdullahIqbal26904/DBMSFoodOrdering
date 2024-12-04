@@ -56,7 +56,7 @@ function CategoryHead() {
             return (
               <div key={item.food_catid}>
                 <div onClick={() => showbrakfast(item.food_catname)} className="category1">
-                  <img src={pic11} alt="" />
+                  <img src={item.imageurl} alt="" />
                 </div>
                 <span>{item.food_catname}</span>
               </div>
@@ -64,8 +64,8 @@ function CategoryHead() {
           })}
       </div>
       <div className={showlunch ? '' : 'notvisible'}>
-        <button className={'prebtn'}><img src={arrow} alt="" /></button>
-        <button className={'nxtbtn'}><img src={arrow} alt="" /></button>
+        {/* <button className={'prebtn'}><img src={arrow} alt="" /></button>
+        <button className={'nxtbtn'}><img src={arrow} alt="" /></button> */}
         <div className={'productcontainer'}>
           {lunch && lunch.map((item) => {
             return (

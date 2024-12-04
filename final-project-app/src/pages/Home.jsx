@@ -26,6 +26,8 @@ function Home() {
   const [getdata, setgetdata] = useState(true);
   const [cartfromdb, setcartfromdb] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true); // Navbar visibility state
+  const [lastScrollY, setLastScrollY] = useState(0); // Tracks last scroll position
 
   useEffect(() => {
     setIsLoading(true);
@@ -88,8 +90,40 @@ function Home() {
       document.body.style.overflow = 'auto';
     };
   }, [cartOpen]);
+  useEffect(() => {
+    if (cartOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [cartOpen]);
+
+  // Handle scroll direction for navbar visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setIsNavbarVisible(false);
+      } else {
+        // Scrolling up
+        setIsNavbarVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
   return (
     <div>
+      {isNavbarVisible && <Navbar />}
+      <div>
       <div className={styles.mainhai}>
         <div className={`cart-modal ${cartOpen ? 'open' : ''}`}>
           <div className="cart-header">
@@ -98,9 +132,7 @@ function Home() {
           </div>
           <Cart_comp data={cartfromdb} />
         </div>
-        <div className={styles.nav2}>
-          <Navbar />
-        </div>
+
         <div className={cartOpen ? 'blurred' : ''}>
           <div id={styles.hero}>
             <div id={styles.herochild1}>
@@ -136,7 +168,10 @@ function Home() {
             </div>
           </div>
           <div style={{ 'width': '100%', 'display': 'flex', "textAlign": 'center', "justifyContent": "center", "margin": "20px" }}>
-            <h1 className={styles.abc}>Top Selling Products</h1>
+            <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl lg:leading-tight">
+              Top Selling{" "}
+              <span className="font-serif text-yellow">Products</span>
+            </h2>
 
           </div>
           <div className={styles.product}>
@@ -180,6 +215,8 @@ function Home() {
       <div>
         <Footer />
       </div>
+      </div>
+      
     </div>
   );
 }
