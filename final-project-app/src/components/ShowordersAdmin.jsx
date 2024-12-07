@@ -71,63 +71,66 @@ function ShowordersAdmin() {
         // console.log('firstabsahihai')
         fetchProductsForOrders();
     }, [orders]); // Only dependent on orders
-  return (
-    <div><h2>All Orders</h2>
-    <div className="order-list">
-        {orders.map((order) => (
-            <div key={order.order_id} className="order-card">
-                <h3>Order #{order.order_id}</h3>
-                <div className="order-header">
+    return (
+        <div>
+            <h2 className="text-3xl font-semibold text-gray-800 mb-4 mt-6">All Orders</h2>
 
-                    <p><strong>User:</strong> {order.name}</p>
-                    <p><strong>Email:</strong> {order.email}</p>
-                    <p><strong>Order Date:</strong> {order.order_Date}</p>
-                    <p><strong>Order Time:</strong> {order.order_Time}</p>
-                </div>
-                <p className={`status ${order.order_status}`}>
-                    Status: {orderStatus[order.order_id] || order.order_status}
-                </p>
-                <select
-                    value={orderStatus[order.order_id] || order.order_status}
-                    onChange={(e) =>
-                        handleUpdateStatus(order.order_id, e.target.value)
-                    }
-                >
-                    <option value="Ordered" disabled>
-                        Ordered
-                    </option>
-                    <option value="Prepared">Prepared</option>
-                    <option value="dispatched">Dispatched</option>
-                    <option value="delivered">Delivered</option>
-                </select>
-                <div className="delivery-info">
-                    <p><strong>Address:</strong> {order.delivery_address}</p>
-                    <p><strong>Phone:</strong> {order.phoneNo}</p>
-                    <p><strong>City:</strong> {order.delivery_city}</p>
-                    <p><strong>Payment Method:</strong> {order.payment_method}</p>
-                </div>
-                <div className="product-table">
-                    <h4>Products</h4>
-                    <div className="product-list">
-                        {(orderProducts[order.order_id] || []).map((product) => (
-                            <div key={product.id} className="product-item">
-                                <img src={product.imgdata ? `http://localhost:3002/uploads/${product.imgdata}` : product.imgurl}
-                                    alt={product.name} className="product-image" />
-                                <div className="product-details">
-                                    <p><strong>{product.name}</strong></p>
-                                    <p>Quantity: {product.quantity}</p>
-                                    <p>Price: ${product.price}</p>
-                                </div>
+
+            <div className="">
+                {orders.map((order) => (
+                    <div key={order.order_id} className="order-card">
+                        <h3>Order #{order.order_id}</h3>
+                        <div className="order-header">
+
+                            <p><strong>User:</strong> {order.name}</p>
+                            <p><strong>Email:</strong> {order.email}</p>
+                            <p><strong>Order Date:</strong> {order.order_Date}</p>
+                            <p><strong>Order Time:</strong> {order.order_Time}</p>
+                        </div>
+                        <p className={`status `}>
+                            Status: {orderStatus[order.order_id] || order.order_status}
+                        </p>
+                        <select
+                            value={orderStatus[order.order_id] || order.order_status}
+                            onChange={(e) =>
+                                handleUpdateStatus(order.order_id, e.target.value)
+                            }
+                        >
+                            <option value="Ordered" disabled>
+                                Ordered
+                            </option>
+                            <option value="Prepared">Prepared</option>
+                            <option value="dispatched">Dispatched</option>
+                            <option value="delivered">Delivered</option>
+                        </select>
+                        <div className="delivery-info">
+                            <p><strong>Address:</strong> {order.delivery_address}</p>
+                            <p><strong>Phone:</strong> {order.phoneNo}</p>
+                            <p><strong>City:</strong> {order.delivery_city}</p>
+                            <p><strong>Payment Method:</strong> {order.payment_method}</p>
+                        </div>
+                        <div className="product-table">
+                            <h4>Products</h4>
+                            <div className="product-list">
+                                {(orderProducts[order.order_id] || []).map((product) => (
+                                    <div key={product.id} className="product-item">
+                                        <img src={product.imgdata ? `http://localhost:3002/uploads/${product.imgdata}` : product.imgurl}
+                                            alt={product.name} className="product-image" />
+                                        <div className="product-details">
+                                            <p><strong>{product.name}</strong></p>
+                                            <p>Quantity: {product.quantity}</p>
+                                            <p>Price: ${product.price}</p>
+                                        </div>
+                                    </div>
+                                ))}
+
                             </div>
-                        ))}
+                        </div>
 
                     </div>
-                </div>
-
-            </div>
-        ))}
-    </div></div>
-  )
+                ))}
+            </div></div>
+    )
 }
 
 export default ShowordersAdmin

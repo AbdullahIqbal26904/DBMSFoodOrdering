@@ -40,127 +40,108 @@ db.connect(err => {
   console.log('Connected to MySQL');
 });
 
-app.get('/data', (req, res) => {
-  let sql = 'SELECT * FROM users';
-  db.query(sql, (err, result) => {
-    if (err) throw err;
-    res.json(result);
-  });
-});
-
-app.put('/replaceOrder', async (req, res) => {
-  const { orderId } = req.body;
-
-  if (!orderId) {
-    return res.status(400).send('Order ID is required.');
-  }
-
-  const query = `
-    UPDATE orders 
-    SET 
-      order_Date = CURDATE(), 
-      order_Time = CURTIME(), 
-      order_status = 'Ordered' 
-    WHERE 
-      order_id = ?`;
-
-  try {
-    const [result] = await db.promise().query(query, [orderId]); // Assuming `db` is configured with promise support
-    if (result.affectedRows === 0) {
-      return res.status(404).send('Order not found.');
+//Home Page Api's
+app.get("/getcartdata", (req, res) => {
+  const { cart_id } = req.query;
+  const get_query = `SELECT P.*,ci.quantity FROM PRODUCTS P JOIN cartItems ci ON P.id = ci.id JOIN Cart C ON C.cart_id = ci.cart_id WHERE C.cart_id = ?`;
+  // console.log("fetching data of cart: ", cart_id);
+  db.query(get_query, [cart_id], (err, result) => {
+    if (err) {
+      console.log('Cannot be fetched.')
+    } else if (result.length > 0) {
+      res.json(result);
     }
-    res.send('Order placed successfully');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error occurred while creating the order.');
-  }
+  })
+});
+app.get("/getcategory", (req, res) => {
+  const get_query = `SELECT * FROM foodCategories`;
+  // console.log("fetching data of cart: ", cart_id);
+  db.query(get_query, (err, result) => {
+    if (err) {
+      console.log('Cannot be fetched.')
+    } else if (result.length > 0) {
+      res.json(result);
+    }
+  })
 });
 
-
-app.put('/placeorder', (req, res) => {
-  const { date, time, total, status, id, address, city, paymentmethod, postalcode, phoneno } = req.body;
-
-  // Log the incoming request for debugging
-  console.log('Creating order with the following details:', req.body);
-
-  const callProcedure = `CALL finalised_order12(?,?,?,?,?,?,?,?,?,?)`; // Make sure the procedure name matches
-
-  db.query(callProcedure, [date, time, total, status, id, address, city, paymentmethod, postalcode, phoneno], (err, result) => {
-      if (err) {
-          console.error('Error occurred while calling procedure:', err); // Log the error
-          return res.status(500).send('Error occurred while creating the order.'); // Send a more descriptive error message
-      }
-      res.json(result); // Send the result back to the frontend
-      console.log('order is placed.');
-  });
-});
-
-app.post('/products', upload.single('imgdata'), (req, res) => {
-  console.log('Received request to add product');
-  
-  // Extract product details from the request body
-  const { name, description, category, price, ratings, qnty, imgdata, imageUrl } = req.body;
-  
-  console.log('Product details:', { name, description, category, price, ratings, qnty, imgdata, imageUrl });
-  
-  let addProdquery = ``;
-  
-  if (imageUrl == "") {
-    // Handling case where imageUrl is empty, using the uploaded file
-    const imagePath = req.file ? `${req.file.filename}` : null;
-    console.log('No imageUrl provided, using uploaded file. Image path:', imagePath);
-
-    addProdquery = `INSERT INTO PRODUCTS (name, description, food_categoryid, price, ratings, qnty, imgdata) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    console.log('Executing query to insert product with imgdata:', addProdquery);
-
-    db.query(addProdquery, [name, description, category, price, ratings, qnty, imagePath], (err, result) => {
-      if (err) {
-        console.error('Error adding product:', err); // Log the error
-        return res.status(500).send('Error adding product');
-      } else {
-        console.log('Product successfully added:', result); // Log the result
-        res.send('Product Successfully added');
-      }
-    });
-  } else {
-    // Handling case where imageUrl is provided
-    console.log('ImageUrl provided:', imageUrl);
-
-    addProdquery = `INSERT INTO PRODUCTS (name, description, food_categoryid, price, ratings, qnty, imgurl) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    console.log('Executing query to insert product with imgurl:', addProdquery);
-
-    db.query(addProdquery, [name, description, category, price, ratings, qnty, imageUrl], (err, result) => {
-      if (err) {
-        console.error('Error adding product:', err); // Log the error
-        return res.status(500).send('Error adding product');
-      } else {
-        console.log('Product successfully added:', result); // Log the result
-        res.send('Product Successfully added');
-      }
-    });
-  }
-});
-
-
-app.post('/signup', async (req, res) => {
-  const { name, email, password, Customer } = req.body;
-  let select = 'SELECT * FROM users WHERE Email = ?';
-  db.query(select, [email], async (err, result) => {
+app.get('/topselling', (req, res) => {
+  const query = `SELECT * FROM PRODUCTS ORDER BY prod_sold DESC LIMIT 6`;
+  db.query(query, (err, result) => {
     if (err) throw err;
-    else if (result.length > 0) {
-      return res.status(409).send('User already registered');
+    res.send(result);
+  })
+})
+
+//Cart Page Api's
+app.get(`/getcarttotal`, (req, res) => {
+  const { cart_id2 } = req.query;
+  const get_cart_total = `select sum(ci.total_item_price) as total from cartItems ci inner join Cart c on ci.cart_id = c.cart_id where c.cart_id = ?`
+  db.query(get_cart_total, [cart_id2], (err, result) => {
+    if (err) {
+      console.log('Error fetching total.');
     } else {
-      const hashedpasswords = await bcrypt.hash(password, 10);
-      const insertUserQuery = 'INSERT INTO users (Name, Email, Password,role) VALUES (?, ?, ?,?)';
-      db.query(insertUserQuery, [name, email, hashedpasswords, Customer], (err, result) => {
-        if (err) {
-          return res.status(500).send('Error registering user');
-        }
-        res.send('User registered successfully');
-      });
+      res.json(result);
     }
-  });
+  })
 });
+
+app.put("/updatequantity", (req, res) => {
+  const { qnty_fr_db, prod_id, cart_id, prod_price } = req.body;
+  const update = `UPDATE cartItems set quantity = quantity + (?),total_item_price = (quantity * ?) where id=? AND cart_id = ?`;
+  db.query(update, [qnty_fr_db, prod_price, prod_id, cart_id], (err, result) => {
+    if (err) {
+      // Error occurred during query execution
+      res.status(400).json({ message: 'Unable to update quantity.' });
+    } else {
+
+      res.json({ message: 'Quantity updated successfully.' });
+    }
+  })
+});
+
+app.delete("/deletefromcart/:id/:cartid", (req, res) => {
+  const { id, cartid } = req.params;
+  console.log('Deleting product with cart id: ', id)
+  const del = `DELETE FROM cartItems WHERE id = ? AND cart_id = ?`;
+  db.query(del, [id, cartid], (err, result) => {
+    if (err) {
+      console.error('Error deleting product:', err.message);
+      res.status(500).json({
+        message: 'Error deleting product from cart',
+        error: err.message
+      });
+    } else {
+      res.status(200).json({
+        message: 'Product deleted'
+      })
+    }
+  })
+})
+
+//Signin/Signup Api's
+app.get('/getCart/:id', (req, res) => {
+  const userId = req.params.id;
+
+  // Query to fetch the cart for the given user ID
+  const getCartQuery = `SELECT * FROM Cart WHERE id = ?`;
+
+  db.query(getCartQuery, [userId], (err, cart) => {
+    if (err) {
+      console.error('Error fetching cart:', err);
+      return res.status(500).send('Error fetching cart');
+    }
+
+    // If no cart found for this user
+    if (cart.length === 0) {
+      return res.status(404).json({ message: 'No cart found for this user.' });
+    }
+
+    // Send the cart data as the response
+    res.json(cart);
+  })
+}
+);
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
   const query2 = 'SELECT * FROM users WHERE Email = ?';
@@ -218,6 +199,147 @@ app.post('/createCart', (req, res) => {
   });
 });
 
+app.post('/signup', async (req, res) => {
+  const { name, email, password, Customer } = req.body;
+  let select = 'SELECT * FROM users WHERE Email = ?';
+  db.query(select, [email], async (err, result) => {
+    if (err) throw err;
+    else if (result.length > 0) {
+      return res.status(409).send('User already registered');
+    } else {
+      const hashedpasswords = await bcrypt.hash(password, 10);
+      const insertUserQuery = 'INSERT INTO users (Name, Email, Password,role) VALUES (?, ?, ?,?)';
+      db.query(insertUserQuery, [name, email, hashedpasswords, Customer], (err, result) => {
+        if (err) {
+          return res.status(500).send('Error registering user');
+        }
+        res.send('User registered successfully');
+      });
+    }
+  });
+});
+
+//Admin Page Api's
+app.post('/addproductstodb', upload.single('imgdata'), (req, res) => {
+  console.log('Received request to add product');
+  
+  // Extract product details from the request body
+  const { name, description, category, price, ratings, qnty, imgdata, imageUrl } = req.body;
+  
+  console.log('Product details:', { name, description, category, price, ratings, qnty, imgdata, imageUrl });
+  
+  let addProdquery = ``;
+  
+  if (imageUrl == "") {
+    // Handling case where imageUrl is empty, using the uploaded file
+    const imagePath = req.file ? `${req.file.filename}` : null;
+    // console.log('No imageUrl provided, using uploaded file. Image path:', imagePath);
+
+    addProdquery = `INSERT INTO PRODUCTS (name, description, food_categoryid, price, ratings, qnty, imgdata) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    // console.log('Executing query to insert product with imgdata:', addProdquery);
+
+    db.query(addProdquery, [name, description, category, price, ratings, qnty, imagePath], (err, result) => {
+      if (err) {
+        console.error('Error adding product:', err); // Log the error
+        return res.status(500).send('Error adding product');
+      } else {
+        console.log('Product successfully added:', result); // Log the result
+        res.send('Product Successfully added');
+      }
+    });
+  } else {
+    // Handling case where imageUrl is provided
+    // console.log('ImageUrl provided:', imageUrl);
+
+    addProdquery = `INSERT INTO PRODUCTS (name, description, food_categoryid, price, ratings, qnty, imgurl) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    // console.log('Executing query to insert product with imgurl:', addProdquery);
+
+    db.query(addProdquery, [name, description, category, price, ratings, qnty, imageUrl], (err, result) => {
+      if (err) {
+        console.error('Error adding product:', err); // Log the error
+        return res.status(500).send('Error adding product');
+      } else {
+        console.log('Product successfully added:', result); // Log the result
+        res.send('Product Successfully added');
+      }
+    });
+  }
+});
+app.post('/addcategory', async (req, res) => {
+  const { name, imgurl } = req.body;
+  const query = `INSERT INTO foodCategories(food_catname, imageurl) VALUES(?, ?)`;
+  console.log(name,imgurl);
+  try {
+    await db.execute(query, [name, imgurl]);
+    res.send('Category Added Successfully.');
+  } catch (err) {
+    console.log(err);
+    res.status(500).send('Error adding category: ' + err.message);
+  }
+});
+
+
+app.get('/data', (req, res) => {
+  let sql = 'SELECT * FROM users';
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result);
+  });
+});
+//Checkout Api's
+app.put('/replaceOrder', async (req, res) => {
+  const { orderId } = req.body;
+
+  if (!orderId) {
+    return res.status(400).send('Order ID is required.');
+  }
+
+  const query = `
+    UPDATE orders 
+    SET 
+      order_Date = CURDATE(), 
+      order_Time = CURTIME(), 
+      order_status = 'Ordered' 
+    WHERE 
+      order_id = ?`;
+
+  try {
+    const [result] = await db.promise().query(query, [orderId]); // Assuming `db` is configured with promise support
+    if (result.affectedRows === 0) {
+      return res.status(404).send('Order not found.');
+    }
+    res.send('Order placed successfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error occurred while creating the order.');
+  }
+});
+
+
+app.put('/placeorder', (req, res) => {
+  const { date, time, total, status, id, address, city, paymentmethod, postalcode, phoneno } = req.body;
+
+  // Log the incoming request for debugging
+  console.log('Creating order with the following details:', req.body);
+
+  const callProcedure = `CALL finalised_order12(?,?,?,?,?,?,?,?,?,?)`; // Make sure the procedure name matches
+
+  db.query(callProcedure, [date, time, total, status, id, address, city, paymentmethod, postalcode, phoneno], (err, result) => {
+      if (err) {
+          console.error('Error occurred while calling procedure:', err); // Log the error
+          return res.status(500).send('Error occurred while creating the order.'); // Send a more descriptive error message
+      }
+      res.json(result); // Send the result back to the frontend
+      console.log('order is placed.');
+  });
+});
+
+
+
+
+
+
+
 app.post("/addtocart", (req, res) => {
   const { cart_id, product_id, quantity, price } = req.body;
   const isproductinstock = `SELECT qnty FROM PRODUCTS WHERE id = ? AND qnty > 0`;
@@ -257,54 +379,8 @@ app.post("/addtocart", (req, res) => {
   })
 })
 
-app.get("/getcartdata", (req, res) => {
-  const { cart_id } = req.query;
-  const get_query = `SELECT P.*,ci.quantity FROM PRODUCTS P JOIN cartItems ci ON P.id = ci.id JOIN Cart C ON C.cart_id = ci.cart_id WHERE C.cart_id = ?`;
-  // console.log("fetching data of cart: ", cart_id);
-  db.query(get_query, [cart_id], (err, result) => {
-    if (err) {
-      console.log('Cannot be fetched.')
-    } else if (result.length > 0) {
-      res.json(result);
-    }
-  })
-})
-app.get("/getcategory", (req, res) => {
-  const get_query = `SELECT * FROM foodCategories`;
-  // console.log("fetching data of cart: ", cart_id);
-  db.query(get_query, (err, result) => {
-    if (err) {
-      console.log('Cannot be fetched.')
-    } else if (result.length > 0) {
-      res.json(result);
-    }
-  })
-})
-app.get(`/getcarttotal`, (req, res) => {
-  const { cart_id2 } = req.query;
-  const get_cart_total = `select sum(ci.total_item_price) as total from cartItems ci inner join Cart c on ci.cart_id = c.cart_id where c.cart_id = ?`
-  db.query(get_cart_total, [cart_id2], (err, result) => {
-    if (err) {
-      console.log('Error fetching total.');
-    } else {
-      res.json(result);
-    }
-  })
-})
 
-app.put("/updatequantity", (req, res) => {
-  const { qnty_fr_db, prod_id, cart_id, prod_price } = req.body;
-  const update = `UPDATE cartItems set quantity = quantity + (?),total_item_price = (quantity * ?) where id=? AND cart_id = ?`;
-  db.query(update, [qnty_fr_db, prod_price, prod_id, cart_id], (err, result) => {
-    if (err) {
-      // Error occurred during query execution
-      res.status(400).json({ message: 'Unable to update quantity.' });
-    } else {
 
-      res.json({ message: 'Quantity updated successfully.' });
-    }
-  })
-})
 
 
 app.put('/orderproductstable', (req, res) => {
@@ -326,28 +402,7 @@ app.put('/orderproductstable', (req, res) => {
 
 
 // Order placement ends here
-app.get('/getCart/:id', (req, res) => {
-  const userId = req.params.id;
 
-  // Query to fetch the cart for the given user ID
-  const getCartQuery = `SELECT * FROM Cart WHERE id = ?`;
-
-  db.query(getCartQuery, [userId], (err, cart) => {
-    if (err) {
-      console.error('Error fetching cart:', err);
-      return res.status(500).send('Error fetching cart');
-    }
-
-    // If no cart found for this user
-    if (cart.length === 0) {
-      return res.status(404).json({ message: 'No cart found for this user.' });
-    }
-
-    // Send the cart data as the response
-    res.json(cart);
-  })
-}
-);
 
 app.get('/productsbyrange', async (req, res) => {
   const { minPrice, maxPrice } = req.query;
@@ -462,24 +517,7 @@ app.delete('/delete-product/:id', (req, res) => {
   });
 });
 
-app.delete("/deletefromcart/:id/:cartid", (req, res) => {
-  const { id, cartid } = req.params;
-  console.log('Deleting product with cart id: ', id)
-  const del = `DELETE FROM cartItems WHERE id = ? AND cart_id = ?`;
-  db.query(del, [id, cartid], (err, result) => {
-    if (err) {
-      console.error('Error deleting product:', err.message);
-      res.status(500).json({
-        message: 'Error deleting product from cart',
-        error: err.message
-      });
-    } else {
-      res.status(200).json({
-        message: 'Product deleted'
-      })
-    }
-  })
-})
+
 
 app.get('/getproducts',(req,res) => {
 const getdata = `SELECT * FROM PRODUCTS`;
@@ -495,13 +533,7 @@ db.query(getdata,(err,result)=>{
 }
 )
 
-app.get('/topselling', (req, res) => {
-  const query = `SELECT * FROM PRODUCTS ORDER BY prod_sold DESC LIMIT 6`;
-  db.query(query, (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  })
-})
+
 app.get('/lunch', (req, res) => {
   const category = req.query.category; // Get category from query parameters
   const query = `select p.*,fc.food_catname from foodCategories fc join products p on p.food_categoryid = fc.food_catid where food_catname = ?`;
@@ -659,6 +691,8 @@ app.put("/updateOrderStatus", async (req, res) => {
     res.status(500).json({ message: "Failed to update order status." });
   }
 });
+
+app.put("/addcategory",)
 
 const port = process.env.PORT;
 app.listen(port, () => {

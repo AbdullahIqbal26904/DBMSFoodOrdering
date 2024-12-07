@@ -23,7 +23,7 @@ function Addprodadmin() {
         formData.append('qnty', productdetails.qnty);
         formData.append('imgdata', imgdata); // Append file
         formData.append('imageUrl', productdetails.imageUrl);
-        axios.post('http://localhost:3002/products', formData, {
+        axios.post('http://localhost:3002/addproductstodb', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -47,9 +47,9 @@ function Addprodadmin() {
     }
     return (
         <div>
-            <h1>Add Product</h1>
+            <h1 className="text-3xl font-semibold text-gray-800 mb-4 mt-6">Add Product</h1>
             <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-8" controlId="formBasicEmail">
                     <Form.Label>Product Name</Form.Label>
                     <Form.Control type="text" placeholder="Enter Product Name: " name='name' onChange={setData} required />
                 </Form.Group>

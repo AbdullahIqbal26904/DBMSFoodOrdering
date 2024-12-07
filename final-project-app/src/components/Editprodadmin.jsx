@@ -86,7 +86,7 @@ function Editprodadmin() {
     }
     return (
         <div>
-            <h1>Edit Product</h1>
+            <h2 className="text-3xl font-semibold text-gray-800 mb-4 mt-6">Edit Product</h2>
             <DropdownButton className='dropdown' id="dropdown-basic-button" title="Select Product by:">
                 <Dropdown.Item onClick={searchName}>Name</Dropdown.Item>
                 <Dropdown.Item onClick={searchCategory}>category</Dropdown.Item>
