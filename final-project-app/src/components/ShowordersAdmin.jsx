@@ -112,8 +112,8 @@ function ShowordersAdmin() {
                         <div className="product-table">
                             <h4>Products</h4>
                             <div className="product-list">
-                                {(orderProducts[order.order_id] || []).map((product) => (
-                                    <div key={product.id} className="product-item">
+                                {(orderProducts[order.order_id] || []).map((product,index) => (
+                                    <div key={index} className="product-item">
                                         <img src={product.imgdata ? `http://localhost:3002/uploads/${product.imgdata}` : product.imgurl}
                                             alt={product.name} className="product-image" />
                                         <div className="product-details">
@@ -129,7 +129,8 @@ function ShowordersAdmin() {
 
                     </div>
                 ))}
-            </div></div>
+            </div>
+            </div>
     )
 }
 
