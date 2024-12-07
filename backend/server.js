@@ -47,7 +47,37 @@ app.get('/data', (req, res) => {
     res.json(result);
   });
 });
-app.put('/bhaihojaplease', (req, res) => {
+
+app.put('/replaceOrder', async (req, res) => {
+  const { orderId } = req.body;
+
+  if (!orderId) {
+    return res.status(400).send('Order ID is required.');
+  }
+
+  const query = `
+    UPDATE orders 
+    SET 
+      order_Date = CURDATE(), 
+      order_Time = CURTIME(), 
+      order_status = 'Ordered' 
+    WHERE 
+      order_id = ?`;
+
+  try {
+    const [result] = await db.promise().query(query, [orderId]); // Assuming `db` is configured with promise support
+    if (result.affectedRows === 0) {
+      return res.status(404).send('Order not found.');
+    }
+    res.send('Order placed successfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error occurred while creating the order.');
+  }
+});
+
+
+app.put('/placeorder', (req, res) => {
   const { date, time, total, status, id, address, city, paymentmethod, postalcode, phoneno } = req.body;
 
   // Log the incoming request for debugging
@@ -64,33 +94,53 @@ app.put('/bhaihojaplease', (req, res) => {
       console.log('order is placed.');
   });
 });
+
 app.post('/products', upload.single('imgdata'), (req, res) => {
-  let addProdquery = ``;
+  console.log('Received request to add product');
+  
+  // Extract product details from the request body
   const { name, description, category, price, ratings, qnty, imgdata, imageUrl } = req.body;
+  
+  console.log('Product details:', { name, description, category, price, ratings, qnty, imgdata, imageUrl });
+  
+  let addProdquery = ``;
+  
   if (imageUrl == "") {
+    // Handling case where imageUrl is empty, using the uploaded file
     const imagePath = req.file ? `${req.file.filename}` : null;
-    addProdquery = `INSERT INTO PRODUCTS (name, description, category, price, ratings, qnty, imgdata) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    console.log('No imageUrl provided, using uploaded file. Image path:', imagePath);
+
+    addProdquery = `INSERT INTO PRODUCTS (name, description, food_categoryid, price, ratings, qnty, imgdata) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    console.log('Executing query to insert product with imgdata:', addProdquery);
+
     db.query(addProdquery, [name, description, category, price, ratings, qnty, imagePath], (err, result) => {
       if (err) {
+        console.error('Error adding product:', err); // Log the error
         return res.status(500).send('Error adding product');
       } else {
+        console.log('Product successfully added:', result); // Log the result
         res.send('Product Successfully added');
       }
     });
   } else {
-    const { name, description, category, price, ratings, qnty, imgUrl } = req.body;
+    // Handling case where imageUrl is provided
+    console.log('ImageUrl provided:', imageUrl);
 
-    addProdquery = `INSERT INTO PRODUCTS (name, description, category, price, ratings, qnty, imgurl) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    addProdquery = `INSERT INTO PRODUCTS (name, description, food_categoryid, price, ratings, qnty, imgurl) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    console.log('Executing query to insert product with imgurl:', addProdquery);
+
     db.query(addProdquery, [name, description, category, price, ratings, qnty, imageUrl], (err, result) => {
       if (err) {
+        console.error('Error adding product:', err); // Log the error
         return res.status(500).send('Error adding product');
       } else {
+        console.log('Product successfully added:', result); // Log the result
         res.send('Product Successfully added');
       }
     });
   }
-
 });
+
 
 app.post('/signup', async (req, res) => {
   const { name, email, password, Customer } = req.body;
@@ -247,9 +297,11 @@ app.put("/updatequantity", (req, res) => {
   const update = `UPDATE cartItems set quantity = quantity + (?),total_item_price = (quantity * ?) where id=? AND cart_id = ?`;
   db.query(update, [qnty_fr_db, prod_price, prod_id, cart_id], (err, result) => {
     if (err) {
-      res.status(400).json({ message: 'Unable to update quantity.' })
+      // Error occurred during query execution
+      res.status(400).json({ message: 'Unable to update quantity.' });
     } else {
-      res.json(result);
+
+      res.json({ message: 'Quantity updated successfully.' });
     }
   })
 })
@@ -559,7 +611,7 @@ app.get('/admin/orders',(req,res) => {
 app.get('/userprevorders',(req,res) => {
   const { user_id } = req.query;
   console.log(user_id);
-  const getorders = `select o.*,u.name,u.email,d.delivery_address,delivery_city,d.payment_method,d.postal_code,d.phoneNo from Orders o inner join users u on o.id = u.id inner join delivery d on o.delivery_id = d.delivery_id where order_status = 'Ordered' AND u.id = ?`;
+  const getorders = `select o.*,u.name,u.email,d.delivery_address,delivery_city,d.payment_method,d.postal_code,d.phoneNo from Orders o inner join users u on o.id = u.id inner join delivery d on o.delivery_id = d.delivery_id where order_status <> 'Ordered' AND u.id = ?`;
   db.query(getorders,[user_id],(err,result) => {
     if(err){
       res.status(400).json({message: 'Error fetching PRODUCTS'});

@@ -2,13 +2,11 @@
     background: #eee;
     margin: 0;
     padding: 0;
-    height: 1200vh;
-
+    min-height: 100%;
 }
 .main111 {
     display: grid;
     width: 100%;
-    min-height: 100vh;
     position: relative;
     background-color: #eee;
     display: flex;
