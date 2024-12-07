@@ -119,7 +119,7 @@ function ShowordersAdmin() {
                                         <div className="product-details">
                                             <p><strong>{product.name}</strong></p>
                                             <p>Quantity: {product.quantity}</p>
-                                            <p>Price: ${product.price}</p>
+                                            <p>Price: Rs.{product.price}</p>
                                         </div>
                                     </div>
                                 ))}

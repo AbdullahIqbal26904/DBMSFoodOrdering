@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import FoodCard from "./FoodCard";
-
+import axios from "axios";
+import { useSelector } from 'react-redux';
 const FoodItems = () => {
   const handleToast = (name) => toast.success(`Added ${name} to cart`);
   const [products, setProducts] = useState([]);
@@ -10,23 +11,32 @@ const FoodItems = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-
+  const { categories } = useSelector((state) => state.allCart);
   useEffect(() => {
     async function fetchProducts() {
       const response = await fetch("http://localhost:3002/getproducts");
       const data = await response.json();
       setProducts(data);
       setFilteredProducts(data); // Initialize filtered products
+      console.log(categories);
     }
     fetchProducts();
   }, []);
 
-  const filterProducts = () => {
+  const filterProducts = async () => {
     let filtered = products;
 
     // Filter by category
     if (category) {
-      filtered = filtered.filter((product) => product.category === category);
+      try {
+        console.log(category);
+        const response = await axios.get(`http://localhost:3002/lunch?category=${category}`);
+        filtered = response.data;
+        // console.log(response.data); // Log response correctly
+      } catch (err) {
+        // console.log(err);
+        // toast.error("Server Error");
+      }
     }
 
     // Filter by price range
@@ -50,6 +60,7 @@ const FoodItems = () => {
 
   useEffect(() => {
     filterProducts();
+    console.log('first')
   }, [category, minPrice, maxPrice, searchQuery]);
 
   return (
@@ -70,11 +81,20 @@ const FoodItems = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="">All Categories</option>
+            <option value="">All Products</option>
+            {
+              categories.map((item,index) => {
+                return(
+                  <option key={index} value={item.food_catname}>{item.food_catname}</option>
+                );
+                
+              })
+            }
+            {/* <option value="">All Categories</option>
             <option value="Beverages">Beverages</option>
             <option value="Snacks">Snacks</option>
             <option value="Desserts">Desserts</option>
-            <option value="Main Course">Main Course</option>
+            <option value="Main Course">Main Course</option> */}
             {/* Add more categories as needed */}
           </select>
 
