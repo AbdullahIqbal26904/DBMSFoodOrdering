@@ -39,7 +39,7 @@ function Home() {
         setcartfromdb(data);
         data.forEach((item) => dispatch(addtocart(item)));
       } catch (err) {
-        console.log('Error fetching cart data:', err);
+        // console.log('Error fetching cart data:', err);
       }
     };
 
@@ -48,7 +48,7 @@ function Home() {
         const { data } = await axios.get("http://localhost:3002/topselling");
         setproducts(data);
       } catch (error) {
-        console.error('Error loading top selling products:', error);
+        // console.error('Error loading top selling products:', error);
       }
     };
     const getCategory = async () => {
@@ -58,7 +58,7 @@ function Home() {
         const dataforcat = response.data;
         dispatch(setcategory(dataforcat));
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        // console.error('Error fetching categories:', error);
       }
     };
     if (getdata) {
@@ -123,7 +123,6 @@ function Home() {
   return (
     <div>
       {isNavbarVisible && <Navbar />}
-      <div>
       <div className={styles.mainhai}>
         <div className={`cart-modal ${cartOpen ? 'open' : ''}`}>
           <div className="cart-header">
@@ -211,12 +210,11 @@ function Home() {
         <div style={{ 'padding': '40px 40px', 'background': 'transparent' }} >
           <HomeReviews />
         </div>
+        <div>
+          <Footer />
+        </div>
       </div>
-      <div>
-        <Footer />
-      </div>
-      </div>
-      
+
     </div>
   );
 }

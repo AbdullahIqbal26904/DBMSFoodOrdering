@@ -10,6 +10,7 @@ import { addtocart, set_show_cart, setcategory } from '../redux/features/cartSli
 import Cart_comp from '../components/Cart_comp';
 import './CartModal.css'
 import './homepage.module.css'
+import Footer from '../components/Footer';
 function ShopPage() {
   const [products, setProducts] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 10, max: 2000 });
@@ -40,6 +41,9 @@ function ShopPage() {
           <Cart_comp data={carts} />
         </div>
   <FoodItems/>
+  <div>
+    <Footer/>
+  </div>
     </div>
   );
 }

@@ -53,10 +53,10 @@ const cartSlice = createSlice({
     },
     settotalcartprice: (state,action) => {
       state.cartTotal = action.payload[0].total;
-      console.log('total: ',action.payload[0].total);
+      // console.log('total: ',action.payload[0].total);
     },
     set_show_cart: (state,action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.show_cart_details = action.payload;
       // console.log('cart kholni hai: ',action.payload)
     },
@@ -69,7 +69,7 @@ const cartSlice = createSlice({
       }
     },
     deleteProduct: (state, action) => {
-      console.log(action.payload.id);
+      // console.log(action.payload.id);
       // state.total = state.total - (action.payload.id.qnty * action.payload.id.price);
       state.carts = state.carts.filter(item => item.id !== action.payload.id);
       // console.log('delete hi nahi horaha',state.carts);

@@ -10,6 +10,7 @@ import {
 } from "mdb-react-ui-kit";
 import "./OrderDetails7.css";
 import axios from "axios";
+import Navbar from "./Navbar";
 
 export default function OrderDetails2() {
   const [currentStatus, setCurrentStatus] = useState(0);
@@ -38,8 +39,8 @@ export default function OrderDetails2() {
           }
         });
         setorderproducts(products.data);
-        console.log('products ye hai: ',products.data)
-        console.log('response ye hai: ',response.data);
+        // console.log('products ye hai: ',products.data)
+        // console.log('response ye hai: ',response.data);
         setorderDetails(response.data);
       } catch (error) {
         console.error('Error fetching order details:', error);
@@ -48,12 +49,14 @@ export default function OrderDetails2() {
 
     getOrderDetails();
 
-    console.log(userDetails.userid);
+    // console.log(userDetails.userid);
     // console.log(carts);
   }, [userDetails.userid]);
 
   return (
     <>
+    <div>
+      <section><Navbar/></section>
       <section className="h-100" style={{ backgroundColor: "#eee" }}>
         <MDBContainer className="py-5">
           <MDBRow className="justify-content-center align-items-center h-100">
@@ -162,6 +165,7 @@ export default function OrderDetails2() {
           </MDBRow>
         </MDBContainer>
       </section>
+      </div>
     </>
   );
 }

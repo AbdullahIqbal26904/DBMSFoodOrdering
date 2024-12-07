@@ -46,7 +46,7 @@ function Login_comp() {
                 userid: user.id,
                 role: user.role
             };
-            console.log(userData);
+            // console.log(userData);
             // return;
 
             dispathch(setUserDetails(userData));

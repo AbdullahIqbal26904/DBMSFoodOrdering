@@ -13,7 +13,7 @@ function Navbar() {
   const [openCartmodal,setopenCartmodal] = useState();
   const dispatch = useDispatch(); 
   const hello = () => {
-    console.log('first');
+    // console.log('first');
     dispatch(set_show_cart(true));
   }
   return (

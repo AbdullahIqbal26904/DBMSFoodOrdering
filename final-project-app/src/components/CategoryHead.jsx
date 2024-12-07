@@ -24,14 +24,14 @@ function CategoryHead() {
     sliderRef.current.scrollBy({ left: 200, behavior: 'smooth' });
   };
   async function showbrakfast(category) {
-    console.log('first')
+    // console.log('first')
     setshowlunch(true);
     // console.log("hello world!")
     // const category = "Breakfast"; // Assuming you want to send this as a query parameter
     try {
       const response = await axios.get(`http://localhost:3002/lunch?category=${category}`);
       setlunch(response.data);
-      console.log(response.data); // Log response correctly
+      // console.log(response.data); // Log response correctly
     } catch (err) {
       // console.log(err);
       toast.error("Server Error");

@@ -5,15 +5,15 @@ import Footer from '../components/Footer'
 function Profile() {
   return (
     <div>
-        <div>
+        <section>
             <Navbar/>
-        </div>
-        <div>
+        </section>
+        <section className='my-14'>
             <Profilecomp/>
-        </div>
-        <div>
+        </section>
+        <section>
             <Footer/>
-        </div>
+        </section>
     </div>
   )
 }

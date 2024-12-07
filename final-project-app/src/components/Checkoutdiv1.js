@@ -37,10 +37,10 @@ function Checkoutdiv1() {
         setPostalCode(data.results[0].components.postcode);
       } else {
         alert('Location Access needed');
-        console.log('No results found');
+        // console.log('No results found');
       }
     } catch (error) {
-      console.log('Error fetching data:', error);
+      // console.log('Error fetching data:', error);
       alert('Server error');
     }
   };

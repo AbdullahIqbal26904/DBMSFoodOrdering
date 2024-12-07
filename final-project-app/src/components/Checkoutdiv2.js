@@ -17,15 +17,15 @@ function Checkoutdiv2() {
   const navigate = useNavigate();
   useEffect(() => {
     const productList = carts.map(item => `${item.id}:${item.quantity}`).join(',');
-    console.log(orderDetails)
+    // console.log(orderDetails)
   })
   const createOrder = async () => {
       const now = new Date();
       const currentDate = now.toISOString().split('T')[0];
       const currentTime = now.toTimeString().split(' ')[0];
-      console.log(currentDate, currentTime);
-      console.log(cartTotal);
-      console.log(orderDetails);
+      // console.log(currentDate, currentTime);
+      // console.log(cartTotal);
+      // console.log(orderDetails);
       const Order = {
         date: `${currentDate}`,
         time: `${currentTime}`,
@@ -40,14 +40,14 @@ function Checkoutdiv2() {
         phoneno: `${orderDetails.phone}`
       }
     try {
-      const createOrder = await axios.put('http://localhost:3002/bhaihojaplease', Order);
+      const createOrder = await axios.put('http://localhost:3002/placeorder', Order);
       toast.success(`Order Placed`);
       // console.log('ajeeb harkaten hain', createOrder.data)
       // let orderid = createOrder.data[0];
       // console.log('order id ye hai: ', orderid[0].order_id)
       navigate('/OrderDetails7');
     } catch (err) {
-      console.log('ab kya kru')
+      // console.log('ab kya kru')
       toast.error('Yaha error aya hai.', { position: 'top-right', autoClose: 500 });
     }
 
@@ -64,7 +64,7 @@ function Checkoutdiv2() {
   const calculateTotal = () => {
     const subtotal = cartTotal;
     setTotalAfterDiscount(subtotal + shipping_charges - discount);
-    console.log(totalAfterDiscount);
+    // console.log(totalAfterDiscount);
   };
 
   const handleApplyDiscount = () => {

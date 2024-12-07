@@ -45,14 +45,17 @@ function Cart_comp() {
       cart_id: cart.cartid,
       prod_price: prod.price,
     };
+   
     try {
-      await axios.put("http://localhost:3002/updatequantity", put_qnty);
-      toast.success("Quantity updated", { position: 'top-left', autoClose: 500 });
+      const response = await axios.put("http://localhost:3002/updatequantity", put_qnty);
+      toast.success("Quantity updated ", { position: 'top-left', autoClose: 500 });
       const update_at_redux = { number: num, id: prod.id };
       dispatch(updateQuantity(update_at_redux));
       setgettotal(true);
+
     } catch (err) {
-      console.log('cannot be updated');
+      toast.error("Quantity cannot be 0 ", { position: 'top-left', autoClose: 500 });
+      // console.log('cannot be updated');
     }
   }
 
@@ -63,7 +66,8 @@ function Cart_comp() {
         toast.success("Product removed from cart.", { position: 'top-left', autoClose: 500 });
       })
       .catch((err) => {
-        console.log('error deleting from cart', err);
+        // console.log('error deleting from cart', err);
+        toast.error("server error occured.")
       });
     setgettotal(true);
   }

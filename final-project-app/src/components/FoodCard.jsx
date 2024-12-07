@@ -46,10 +46,10 @@ function FoodCard (props)  {
         toast.success("Item successfuly added.", { position: 'top-right',autoClose: 500 });
         dispatch(addtocart(updatedProduct));
   
-        console.log(response.data);
+      //   console.log(response.data);
       } catch (err) {
         if (err.response) {
-          console.log(err.response.data)
+         //  console.log(err.response.data)
           toast.error(`${err.response.data.message}`,{ position: 'top-right',autoClose: 500 });
           // alert(err.response.data.message);
         } else {

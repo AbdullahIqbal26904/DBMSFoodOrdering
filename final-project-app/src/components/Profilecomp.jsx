@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import './Profilecomp.css';
 import { useSelector } from 'react-redux';
+import { toast } from "react-toastify";
 
 const Profilecomp = () => {
     const [orders, setOrders] = useState([]);
@@ -52,11 +53,11 @@ const Profilecomp = () => {
 
     const handleReplaceOrder = async (orderId) => {
         try {
-            const response = await axios.post("http://localhost:3002/replaceOrder", {
-                old_order_id: orderId,
-                user_id: userDetails.userid,
+            const response = await axios.put("http://localhost:3002/replaceOrder", {
+                orderId: orderId,
             });
-            alert(`Order replaced successfully! New Order ID: ${response.data.order_id}`);
+            toast.success(`Order Placed`);
+            // alert(`Order replaced successfully! New Order ID: ${response.data.order_id}`);
         } catch (error) {
             console.error("Error replacing order:", error);
             alert("Failed to replace order.");
