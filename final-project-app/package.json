@@ -66,5 +66,10 @@
     "tailwindcss": "^3.4.15",
     "webpack": "^4.47.0",
     "webpack-cli": "^3.3.12"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "tailwind.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
