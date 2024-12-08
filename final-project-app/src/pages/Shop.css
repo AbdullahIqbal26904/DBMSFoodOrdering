@@ -13,7 +13,11 @@
   border-radius: 8px;
   margin-bottom: 20px;
 }
-
+.blurred {
+  filter: blur(5px);
+  pointer-events: none;
+  overflow:hidden;
+}
 .shopPage-bannerText {
   font-size: 2.5rem;
   margin: 0;

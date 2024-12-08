@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Shop.css';
-import axios from 'axios'; 
-import Productcard from '../components/Productcard'; 
+import axios from 'axios';
+import Productcard from '../components/Productcard';
 import Navbar from '../components/Navbar';
 import FoodCard from '../components/FoodCard';
 import FoodItems from '../components/FoodItems';
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addtocart, set_show_cart, setcategory } from '../redux/features/cartSlice';
 import Cart_comp from '../components/Cart_comp';
 import './CartModal.css'
-import './homepage.module.css'
+// import './homepage.module.css'
 import Footer from '../components/Footer';
 function ShopPage() {
   const [products, setProducts] = useState([]);
@@ -31,19 +31,22 @@ function ShopPage() {
   };
   return (
     <div>
-      
-      <Navbar/>
-      <div className={`cart-modal ${cartOpen ? 'open' : ''}`}>
-          <div className="cart-header">
-            <h2>Shopping Cart</h2>
-            <button className="close-button" onClick={toggleCart}>×</button>
-          </div>
-          <Cart_comp data={carts} />
+
+      <Navbar />
+      <div className={`cart-modal ${show_cart_details ? 'open' : ''}`}>
+        <div className="cart-header">
+          <h2>Shopping Cart</h2>
+          <button className="close-button" onClick={toggleCart}>×</button>
         </div>
-  <FoodItems/>
-  <div>
-    <Footer/>
-  </div>
+        <Cart_comp data={carts} />
+      </div>
+      <div className={show_cart_details ? 'blurred' : ''}>
+      <FoodItems />
+      <div>
+        <Footer />
+      </div>
+      
+      </div>
     </div>
   );
 }
